@@ -87,7 +87,7 @@ class SearchResponseItem {
   final bool hasDownloads;
   final bool archived;
   final SearchResponseLicense? license;
-  final SearchReponseOwner owner;
+  final SearchResponseOwner owner;
 
   Map<String, dynamic> toJson() => _$SearchResponseItemToJson(this);
 }

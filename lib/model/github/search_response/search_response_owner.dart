@@ -3,8 +3,8 @@ import 'package:json_annotation/json_annotation.dart';
 part 'search_response_owner.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class SearchReponseOwner {
-  SearchReponseOwner({
+class SearchResponseOwner {
+  SearchResponseOwner({
     required this.login,
     required this.id,
     required this.nodeId,
@@ -14,10 +14,10 @@ class SearchReponseOwner {
     required this.htmlUrl,
   });
 
-  factory SearchReponseOwner.fromJson(Map<String, dynamic> json) =>
-      _$SearchReponseOwnerFromJson(json);
+  factory SearchResponseOwner.fromJson(Map<String, dynamic> json) =>
+      _$SearchResponseOwnerFromJson(json);
 
-  Map<String,dynamic> toJson() => _$SearchReponseOwnerToJson(this);
+  Map<String, dynamic> toJson() => _$SearchResponseOwnerToJson(this);
 
   /// ex. "octocat"
   final String login;

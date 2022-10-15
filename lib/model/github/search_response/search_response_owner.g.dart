@@ -6,8 +6,8 @@ part of 'search_response_owner.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-SearchReponseOwner _$SearchReponseOwnerFromJson(Map<String, dynamic> json) =>
-    SearchReponseOwner(
+SearchResponseOwner _$SearchResponseOwnerFromJson(Map<String, dynamic> json) =>
+    SearchResponseOwner(
       login: json['login'] as String,
       id: json['id'] as int,
       nodeId: json['node_id'] as String,
@@ -17,7 +17,8 @@ SearchReponseOwner _$SearchReponseOwnerFromJson(Map<String, dynamic> json) =>
       htmlUrl: json['html_url'] as String,
     );
 
-Map<String, dynamic> _$SearchReponseOwnerToJson(SearchReponseOwner instance) =>
+Map<String, dynamic> _$SearchResponseOwnerToJson(
+        SearchResponseOwner instance) =>
     <String, dynamic>{
       'login': instance.login,
       'id': instance.id,

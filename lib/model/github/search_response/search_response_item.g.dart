@@ -39,7 +39,8 @@ SearchResponseItem _$SearchResponseItemFromJson(Map<String, dynamic> json) =>
           ? null
           : SearchResponseLicense.fromJson(
               json['license'] as Map<String, dynamic>),
-      owner: SearchReponseOwner.fromJson(json['owner'] as Map<String, dynamic>),
+      owner:
+          SearchResponseOwner.fromJson(json['owner'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$SearchResponseItemToJson(SearchResponseItem instance) =>

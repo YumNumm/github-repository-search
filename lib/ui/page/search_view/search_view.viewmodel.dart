@@ -3,7 +3,7 @@ import 'package:flutter_enginner_codecheck/model/github/search_response/search_r
 import 'package:flutter_enginner_codecheck/repository/github_repository.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final repositorySearchViewMoel = StateNotifierProvider<
+final repositorySearchViewModel = StateNotifierProvider<
     RepositorySearchViewModel, AsyncValue<List<SearchResponseItem>>>(
   RepositorySearchViewModel.new,
 );
@@ -17,10 +17,13 @@ final searchRepositoryNameProvider = StateProvider<String?>((ref) => null);
 
 class RepositorySearchViewModel
     extends StateNotifier<AsyncValue<List<SearchResponseItem>>> {
-  RepositorySearchViewModel(this.ref) : super(const AsyncValue.data([]));
+  RepositorySearchViewModel(this.ref) : super(const AsyncValue.data([])) {
+    _gitHubRepository = ref.watch(githubRepository);
+  }
+
   final Ref ref;
 
-  final GitHubRepository _gitHubRepository = GitHubRepository();
+  late GitHubRepository _gitHubRepository;
 
   /// Infinite Paging のためのページ数
   int page = 1;

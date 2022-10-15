@@ -1,19 +1,18 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_enginner_codecheck/model/github/search_param.dart';
 import 'package:flutter_enginner_codecheck/model/github/search_response.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../api/repository_api_client.dart';
+
+final githubRepository =
+    Provider<GitHubRepository>((ref) => GitHubRepository());
 
 class GitHubRepository {
   final _repositoryApiClient = RepositoryApiClient(
     Dio(
       BaseOptions(),
-    )..interceptors.add(
-        LogInterceptor(
-          responseBody: true,
-          requestBody: true,
-        ),
-      ),
+    ),
   );
 
   final String _accept = 'application/vnd.github+json';
