@@ -29,7 +29,7 @@ jobs:
           cache-key: ${{ env.FLUTTER_VERSION }}-${{ env.FLUTTER_CHANNEL }}
 
       - name: Flutter version
-        run: fvm flutter --version
+        run: flutter --version
 
       - name: Cache pubspec dependencies
         uses: actions/cache@v2
@@ -52,19 +52,19 @@ jobs:
           restore-keys: build-runner-
 
       - name: Flutter version
-        run: fvm flutter --version
+        run: flutter --version
 
       - name: Flutter dependencies install
-        run: fvm flutter pub get
+        run: flutter pub get
 
       - name: Generate codes with build_runner
-        run: fvm flutter pub run build_runner build --delete-conflicting-outputs
+        run: flutter pub run build_runner build --delete-conflicting-outputs
 
       - name: Accept Android License
-        run: yes | fvm flutter doctor --android-licenses
+        run: yes | flutter doctor --android-licenses
 
       - name: Flutter Test
-        run: fvm flutter test --no-test-assets --coverage --coverage-path=~/coverage/lcov.info
+        run: flutter test --no-test-assets --coverage --coverage-path=~/coverage/lcov.info
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
