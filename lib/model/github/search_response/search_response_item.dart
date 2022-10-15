@@ -1,4 +1,5 @@
 import 'package:flutter_enginner_codecheck/model/github/search_response/search_response_license.dart';
+import 'package:flutter_enginner_codecheck/model/github/search_response/search_response_owner.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'search_response_item.g.dart';
@@ -34,6 +35,7 @@ class SearchResponseItem {
     required this.hasDownloads,
     required this.archived,
     required this.license,
+    required this.owner,
   });
 
   factory SearchResponseItem.fromJson(Map<String, dynamic> json) =>
@@ -85,6 +87,7 @@ class SearchResponseItem {
   final bool hasDownloads;
   final bool archived;
   final SearchResponseLicense? license;
+  final SearchReponseOwner owner;
 
   Map<String, dynamic> toJson() => _$SearchResponseItemToJson(this);
 }

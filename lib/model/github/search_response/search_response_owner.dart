@@ -17,6 +17,8 @@ class SearchReponseOwner {
   factory SearchReponseOwner.fromJson(Map<String, dynamic> json) =>
       _$SearchReponseOwnerFromJson(json);
 
+  Map<String,dynamic> toJson() => _$SearchReponseOwnerToJson(this);
+
   /// ex. "octocat"
   final String login;
 

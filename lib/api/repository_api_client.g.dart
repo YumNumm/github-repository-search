@@ -23,6 +23,7 @@ class _RepositoryApiClient implements RepositoryApiClient {
   @override
   Future<dynamic> fetch(
     accept,
+    userAgent,
     query,
     sort,
     order,
@@ -38,7 +39,10 @@ class _RepositoryApiClient implements RepositoryApiClient {
       r'per_page': perPage,
     };
     queryParameters.removeWhere((k, v) => v == null);
-    final _headers = <String, dynamic>{r'accept': accept};
+    final _headers = <String, dynamic>{
+      r'accept': accept,
+      r'User-Agent': userAgent,
+    };
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch(_setStreamType<dynamic>(Options(

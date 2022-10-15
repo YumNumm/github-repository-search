@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flutter_enginner_codecheck/model/github/search_param.dart';
 import 'package:flutter_enginner_codecheck/model/github/search_response/search_response_item.dart';
 import 'package:flutter_enginner_codecheck/repository/github_repository.dart';
@@ -8,6 +7,9 @@ final repositorySearchViewMoel = StateNotifierProvider<
     RepositorySearchViewModel, AsyncValue<List<SearchResponseItem>>>(
   (ref) => RepositorySearchViewModel(),
 );
+
+final totalRepositoryCountProvider =
+    StateProvider<AsyncValue<int?>>((ref) => const AsyncValue.data(null));
 
 class RepositorySearchViewModel
     extends StateNotifier<AsyncValue<List<SearchResponseItem>>> {
@@ -22,56 +24,55 @@ class RepositorySearchViewModel
     required String query,
     bool isLoadMore = false,
   }) async {
+    if (query == '') {
+      throw Exception('query is empty');
+    }
     if (latestQuery != query) {
       state = const AsyncValue.data([]);
+      latestQuery = query;
     }
     if (isLoadMore) {
       page++;
     } else {
       page = 1;
     }
-    state = const AsyncValue.loading();
-    try {
-      // 新規部分の取得
-      final res = await _gitHubRepository.fetch(
-        SearchParam(
-          query: query,
-          page: page,
-          perPage: 10,
-        ),
-      );
-      // 既存のデータと新規のデータを結合
-      state = AsyncValue.data(
-        [
-          if (state.hasValue) ...state.value!,
+    state =
+        const AsyncLoading<List<SearchResponseItem>>().copyWithPrevious(state);
+    state = await AsyncValue.guard(
+      () async {
+        // 新規部分の取得
+        final res = await _gitHubRepository.fetch(
+          SearchParam(
+            query: query,
+            page: page,
+            perPage: 50,
+          ),
+        );
+
+        // 既存のデータと新規のデータを結合
+        return [
+          ...state.value ?? [],
           ...res.items,
-        ],
-      );
-    } on Exception catch (error) {
-      state = AsyncValue.error(error, StackTrace.current);
-    } on DioError catch (error) {
-      state = AsyncValue.error(error.message, StackTrace.current);
-    }
+        ];
+      },
+    );
   }
 
   void loadMore() {
     if (state.isLoading || state.isRefreshing) {
       return;
     }
-    state =
-        const AsyncLoading<List<SearchResponseItem>>().copyWithPrevious(state);
-    page++;
     fetch(
       query: latestQuery,
       isLoadMore: true,
     );
   }
 
-  void refresh() {
+  Future<void> refresh() async {
     state =
         const AsyncLoading<List<SearchResponseItem>>().copyWithPrevious(state);
     page = 1;
-    fetch(
+    await fetch(
       query: latestQuery,
     );
   }

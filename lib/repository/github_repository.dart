@@ -8,7 +8,12 @@ class GitHubRepository {
   final _repositoryApiClient = RepositoryApiClient(
     Dio(
       BaseOptions(),
-    ),
+    )..interceptors.add(
+        LogInterceptor(
+          responseBody: true,
+          requestBody: true,
+        ),
+      ),
   );
 
   final String _accept = 'application/vnd.github+json';
@@ -16,6 +21,7 @@ class GitHubRepository {
   Future<SearchResponse> fetch(SearchParam param) async {
     final dynamic res = await _repositoryApiClient.fetch(
       _accept,
+      'YumNumm',
       param.query,
       param.sort?.param,
       param.order?.name,
