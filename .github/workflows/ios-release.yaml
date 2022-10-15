@@ -48,16 +48,9 @@ jobs:
         run: fvm flutter analyze .
         continue-on-error: true
 
-      - name: Generate codes with build_runner
-        run: flutter pub run build_runner build --delete-conflicting-outputs
-
-      - name: Analyze
-        run: flutter analyze .
-        continue-on-error: true
-
       - name: Build ipa
         run: |
-          flutter build ipa --release #--obfuscate --split-debug-info=obfuscate/ios
+          fvm flutter build ipa --release #--obfuscate --split-debug-info=obfuscate/ios
       - name: Upload artifact
         uses: actions/upload-artifact@v1.0.0
         with:
