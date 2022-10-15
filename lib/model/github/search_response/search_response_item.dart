@@ -41,7 +41,7 @@ class SearchResponseItem {
 
   final int id;
   @JsonKey(name: 'node_id')
-  final int nodeId;
+  final String nodeId;
   @JsonKey(name: 'full_name')
   final String fullName;
   final bool private;

@@ -9,7 +9,7 @@ part of 'search_response_item.dart';
 SearchResponseItem _$SearchResponseItemFromJson(Map<String, dynamic> json) =>
     SearchResponseItem(
       id: json['id'] as int,
-      nodeId: json['node_id'] as int,
+      nodeId: json['node_id'] as String,
       fullName: json['full_name'] as String,
       private: json['private'] as bool,
       htmlUrl: json['html_url'] as String,

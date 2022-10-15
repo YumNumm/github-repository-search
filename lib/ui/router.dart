@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_enginner_codecheck/ui/page/homepage.dart';
+import 'package:flutter_enginner_codecheck/ui/page/search_view/search_view.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -14,7 +14,7 @@ class HomeRoute extends GoRouteData {
   const HomeRoute();
 
   @override
-  Widget build(BuildContext context) => const HomePage();
+  Widget build(BuildContext context) => const SearchPage();
 }
 
 final routerProvider = Provider<GoRouter>(

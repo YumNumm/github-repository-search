@@ -18,7 +18,7 @@ class SearchParam {
   @JsonKey(name: 'q')
   final String query;
   final SearchParamSort? sort;
-  final String? order;
+  final SearchParamOrder? order;
   final int? page;
   @JsonKey(name: 'per_page')
   final int? perPage;
@@ -28,19 +28,17 @@ class SearchParam {
 
 /// Sorts the results of your query
 enum SearchParamSort {
-  @JsonValue('stars')
-  stars,
-  @JsonValue('forks')
-  forks,
+  stars('stars'),
+  forks('forks'),
   @JsonValue('help-wanted-issues')
-  helpWantedIssues,
-  @JsonValue('updated')
-  updated,
+  helpWantedIssues('help-wanted-issues'),
+  updated('updated');
+
+  const SearchParamSort(this.param);
+  final String param;
 }
 
 enum SearchParamOrder {
-  @JsonValue('asc')
   asc,
-  @JsonValue('desc')
   desc,
 }
