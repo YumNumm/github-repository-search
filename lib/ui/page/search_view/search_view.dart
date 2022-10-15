@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_enginner_codecheck/model/github/search_response/search_response_item.dart';
 import 'package:flutter_enginner_codecheck/ui/page/search_view/search_view.viewmodel.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:substring_highlight/substring_highlight.dart';
 
 class SearchPage extends StatelessWidget {
   const SearchPage({super.key});
@@ -14,9 +15,45 @@ class SearchPage extends StatelessWidget {
       body: Column(
         children: const [
           RepositorySearchTextField(),
+          RepositorySearchTotalCountWidget(),
           Expanded(child: RepositorySearchList()),
         ],
       ),
+    );
+  }
+}
+
+class RepositorySearchTotalCountWidget extends ConsumerWidget {
+  const RepositorySearchTotalCountWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(totalRepositoryCountProvider);
+    final t = Theme.of(context);
+    return state.when<Widget>(
+      data: (value) {
+        if (value == null) {
+          return const SizedBox.shrink();
+        }
+        return Padding(
+          padding: const EdgeInsets.all(8),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(
+                '$value',
+                style: t.textTheme.bodyLarge,
+              ),
+              const SizedBox(width: 2),
+              const Text('Repository results'),
+            ],
+          ),
+        );
+      },
+      loading: () => const SizedBox.shrink(),
+      error: (error, stack) => const SizedBox.shrink(),
     );
   }
 }
@@ -102,7 +139,10 @@ class RepositorySearchList extends ConsumerWidget {
                         );
                       }
                       final item = items[index];
-                      return RepositoryItemWidget(item: item);
+                      return RepositoryItemWidget(
+                        item: item,
+                        term: ref.watch(searchRepositoryNameProvider) ?? '',
+                      );
                     },
                     childCount: items.length + (data.isLoading ? 1 : 0),
                   ),
@@ -126,7 +166,10 @@ class RepositorySearchList extends ConsumerWidget {
                           );
                         }
                         final item = items[index];
-                        return RepositoryItemWidget(item: item);
+                        return RepositoryItemWidget(
+                          item: item,
+                          term: ref.watch(searchRepositoryNameProvider) ?? '',
+                        );
                       },
                       childCount: items.length + (data.isLoading ? 1 : 0),
                     ),
@@ -151,15 +194,24 @@ class RepositoryItemWidget extends StatelessWidget {
   const RepositoryItemWidget({
     super.key,
     required this.item,
+    required this.term,
   });
 
   final SearchResponseItem item;
+  final String term;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(item.fullName),
-      subtitle: Text(item.createdAt.toString()),
+      title: SubstringHighlight(
+        text: item.fullName,
+        term: term,
+        textStyle: Theme.of(context).textTheme.bodyMedium!,
+        textStyleHighlight: Theme.of(context).textTheme.bodyLarge!.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+      ),
+      subtitle: Text(item.updatedAt.toString()),
       leading: CircleAvatar(
         backgroundImage: NetworkImage(item.owner.avatarUrl),
         backgroundColor: Colors.transparent,

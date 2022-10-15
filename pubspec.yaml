@@ -45,6 +45,7 @@ dependencies:
   logger: ^1.1.0
   retrofit: ^3.3.1
   shared_preferences: ^2.0.15
+  substring_highlight: ^1.0.33
   url_launcher: ^6.1.6
 
 dev_dependencies:

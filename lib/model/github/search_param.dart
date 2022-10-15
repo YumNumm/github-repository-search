@@ -12,6 +12,14 @@ class SearchParam {
     this.perPage,
   });
 
+  factory SearchParam.fromQuery(String query) => SearchParam(query: query);
+  factory SearchParam.paging(int page, SearchParam param) => SearchParam(
+        query: param.query,
+        page: page,
+        perPage: param.perPage,
+        order: param.order,
+        sort: param.sort,
+      );
   factory SearchParam.fromJson(Map<String, dynamic> json) =>
       _$SearchParamFromJson(json);
 
