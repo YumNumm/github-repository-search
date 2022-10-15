@@ -15,8 +15,6 @@ class RepositorySearchTextField extends ConsumerWidget {
       padding: const EdgeInsets.all(8),
       child: TextFormField(
         controller: controller,
-        //  onChanged: (value) =>
-        //      ref.read(repositorySearchViewModel.notifier).fetch(query: value),
         onChanged: (value) =>
             ref.read(repositorySearchViewModel.notifier).setParam(
                   value,

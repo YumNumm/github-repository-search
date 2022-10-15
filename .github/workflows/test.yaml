@@ -1,4 +1,4 @@
-name: Flutter build Android(r)
+name: Flutter Unit Test
 
 #発火条件
 on:
@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  test:
     #ビルド環境
     runs-on: ubuntu-latest
     # タイムアウト時間を設定
@@ -50,11 +50,13 @@ jobs:
       - name: Accept Android License
         run: yes | fvm flutter doctor --android-licenses
 
-      - name: Build apk
-        run: fvm flutter build apk --release #--obfuscate --split-debug-info=obfuscate/android
+      - name: Flutter Test
+        run: fvm flutter test --no-test-assets --coverage --coverage-path=~/coverage/lcov.info
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v1.0.0
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
         with:
-          name: release-apk
-          path: build/app/outputs/flutter-apk/app-release.apk
+          file: ~/coverage/lcov.info
+          flags: UnitTest
+          token: ${{ secrets.CODECOV_TOKEN }}
+          

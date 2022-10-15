@@ -1,4 +1,4 @@
-name: Flutter build Android(r)
+name: Flutter Analyzer
 
 #発火条件
 on:
@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  analyze:
     #ビルド環境
     runs-on: ubuntu-latest
     # タイムアウト時間を設定
@@ -47,14 +47,6 @@ jobs:
       - name: Generate codes with build_runner
         run: fvm flutter pub run build_runner build --delete-conflicting-outputs
 
-      - name: Accept Android License
-        run: yes | fvm flutter doctor --android-licenses
+      - name: Flutter Analyze
+        run: fvm flutter analyze
 
-      - name: Build apk
-        run: fvm flutter build apk --release #--obfuscate --split-debug-info=obfuscate/android
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v1.0.0
-        with:
-          name: release-apk
-          path: build/app/outputs/flutter-apk/app-release.apk

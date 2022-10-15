@@ -1,4 +1,4 @@
-name: Build ipa(release)
+name: Flutter build ipa(release)
 
 #発火条件
 on:
@@ -44,15 +44,17 @@ jobs:
       - name: Generate codes with build_runner
         run: fvm flutter pub run build_runner build --delete-conflicting-outputs
 
-      - name: Analyze
-        run: fvm flutter analyze .
-        continue-on-error: true
-
       - name: Build ipa
         run: |
-          fvm flutter build ipa --release #--obfuscate --split-debug-info=obfuscate/ios
+          fvm flutter build ios --release --no-codesign
+          mkdir -p Payload
+          mv ./build/ios/iphoneos/Runner.app Payload
+          zip -ry Payload.zip Payload/Runner.app
+          mv Payload.zip Payload.ipa
+          rm -rf Payload
+
       - name: Upload artifact
         uses: actions/upload-artifact@v1.0.0
         with:
           name: release-ipa
-          path: build/ios/ipa
+          path: Payload.ipa
