@@ -1,0 +1,65 @@
+name: Build ipa(release)
+
+#発火条件
+on:
+  #ソースをmainブランチにプッシュする時
+  push:
+    branches: [main]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    #ビルド環境
+    runs-on: macos-latest
+    # タイムアウト時間を設定
+    timeout-minutes: 45
+
+    steps:
+      #リポジトリからソースをダンロード
+      - uses: actions/checkout@v2
+
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Show Xcode version
+        run: xcodebuild -version
+
+      - name: Install fvm
+        run: |
+          brew tap leoafarias/fvm
+          brew install fvm
+
+      - name: Setup flutter
+        run: fvm install
+
+      - name: Flutter version
+        run: fvm flutter --version
+
+      - name: Flutter dependencies install
+        #ライブラリーの導入
+        run: fvm flutter pub get
+
+      - name: Generate codes with build_runner
+        run: fvm flutter pub run build_runner build --delete-conflicting-outputs
+
+      - name: Analyze
+        run: fvm flutter analyze .
+        continue-on-error: true
+
+      - name: Generate codes with build_runner
+        run: flutter pub run build_runner build --delete-conflicting-outputs
+
+      - name: Analyze
+        run: flutter analyze .
+        continue-on-error: true
+
+      - name: Build ipa
+        run: |
+          flutter build ipa --release #--obfuscate --split-debug-info=obfuscate/ios
+      - name: Upload artifact
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: release-ipa
+          path: build/ios/ipa

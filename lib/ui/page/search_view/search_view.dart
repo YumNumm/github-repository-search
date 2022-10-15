@@ -37,19 +37,28 @@ class RepositorySearchTotalCountWidget extends ConsumerWidget {
         if (value == null) {
           return const SizedBox.shrink();
         }
-        return Padding(
-          padding: const EdgeInsets.all(8),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Text(
-                '$value',
-                style: t.textTheme.bodyLarge,
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: Wrap(
+                alignment: WrapAlignment.end,
+                children: [
+                  Text(
+                    '$value',
+                    style: t.textTheme.bodyLarge,
+                    overflow: TextOverflow.visible,
+                  ),
+                  const SizedBox(width: 2),
+                  const Text(
+                    'Repository results',
+                    overflow: TextOverflow.visible,
+                  ),
+                ],
               ),
-              const SizedBox(width: 2),
-              const Text('Repository results'),
-            ],
-          ),
+            ),
+          ],
         );
       },
       loading: () => const SizedBox.shrink(),
@@ -84,18 +93,25 @@ class RepositorySearchTextField extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final controller = TextEditingController();
     return Padding(
       padding: const EdgeInsets.all(8),
       child: TextFormField(
+        controller: controller,
         //  onChanged: (value) =>
         //      ref.read(repositorySearchViewMoel.notifier).fetch(query: value),
         onChanged: (value) =>
             ref.read(repositorySearchViewMoel.notifier).setParam(
                   value,
                 ),
-        decoration: const InputDecoration(
+        decoration: InputDecoration(
           hintText: 'Search',
-          border: OutlineInputBorder(
+          prefixIcon: const Icon(Icons.search),
+          suffixIcon: IconButton(
+            onPressed: controller.clear,
+            icon: const Icon(Icons.clear),
+          ),
+          border: const OutlineInputBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(10),
             ),
@@ -135,7 +151,9 @@ class RepositorySearchList extends ConsumerWidget {
                         // InfiniteScroll Indicator
                         return const Padding(
                           padding: EdgeInsets.symmetric(vertical: 32),
-                          child: Center(child: CircularProgressIndicator()),
+                          child: Center(
+                            child: CircularProgressIndicator.adaptive(),
+                          ),
                         );
                       }
                       final item = items[index];
@@ -150,7 +168,7 @@ class RepositorySearchList extends ConsumerWidget {
               },
               loading: () => const SliverFillRemaining(
                 child: Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator.adaptive(),
                 ),
               ),
               error: (error, stack) {
@@ -162,7 +180,7 @@ class RepositorySearchList extends ConsumerWidget {
                         if (index == items.length) {
                           // Error Widget
                           return const Center(
-                            child: CircularProgressIndicator(),
+                            child: CircularProgressIndicator.adaptive(),
                           );
                         }
                         final item = items[index];
