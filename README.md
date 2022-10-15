@@ -1,5 +1,8 @@
 # 株式会社ゆめみ Flutter エンジニアコードチェック課題
 
+[![Codemagic build status](https://api.codemagic.io/apps/634a758322ff8df16c567fd5/634a758322ff8df16c567fd4/status_badge.svg)](https://codemagic.io/apps/634a758322ff8df16c567fd5/634a758322ff8df16c567fd4/latest_build)
+
+
 本プロジェクトは株式会社ゆめみ（以下弊社）が、弊社に Flutter エンジニアを希望する方に出す課題用のプロジェクトです。 本課題が与えられた方は、以下を詳しく読んだ上で課題に取り組んでください。
 
 ## 概要
@@ -39,12 +42,6 @@
 
 マテリアルデザインに準拠すること
 
-## 提出方法
-
-- GitHub の public リポジトリの URL をお知らせください
-- 別の方法で提出する場合はご相談ください（Git のコミット履歴が分かる形式が望ましいです）
-- この課題とは別のコード(ご自身で公開されているOSS等)をもって課題の提出とすることをご希望の場合はご相談ください
-
 ## 評価ポイント
 
 - レビューのしやすさ
@@ -72,30 +69,3 @@
   - リント
   - フォーマット
   - 仮のデプロイ環境
-
-上記以外でも高く評価できるポイントがあれば同等に考慮します。
-
-アピールする点があれば、README に箇条書きなどで記載してください。
-
-## 参考記事
-
-評価ポイントについて詳しくまとめた記事がありますので、ぜひご覧ください。
-
-- [私が（iOS エンジニアの）採用でコードチェックする時何を見ているのか](https://qiita.com/lovee/items/d76c68341ec3e7beb611)
-- [ゆめみの Android の採用コーディング試験を公開しました](https://qiita.com/blendthink/items/aa70b8b3106fb4e3555f)
-
----
-
-## データフロー
-
-```mermaid
-flowchart LR
-  v[View\n/ui/view]
-  <-->vm["ViewModel\n/ui/view"]
-  <-->m[Model]
-  <-->a[API]
-```
-
-### Remote API
-
-RetroFitを用いて`abstract class`を作成
