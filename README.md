@@ -1,13 +1,6 @@
-# 株式会社ゆめみ Flutter エンジニアコードチェック課題
+# GitHub Repository Search
 
 [![Codemagic build status](https://api.codemagic.io/apps/634a758322ff8df16c567fd5/634a758322ff8df16c567fd4/status_badge.svg)](https://codemagic.io/apps/634a758322ff8df16c567fd5/634a758322ff8df16c567fd4/latest_build)
-
-
-本プロジェクトは株式会社ゆめみ（以下弊社）が、弊社に Flutter エンジニアを希望する方に出す課題用のプロジェクトです。 本課題が与えられた方は、以下を詳しく読んだ上で課題に取り組んでください。
-
-## 概要
-
-以下の要件を満たす、Android・iOS で動作するアプリを Flutter で作成してください。
 
 ## 要件
 
@@ -37,10 +30,6 @@
   - [github | Dart Package](https://pub.dev/packages/github) のようなパッケージは利用せず、API を呼ぶ処理を自分で実装すること
 - 検索結果は一覧で概要（リポジトリ名）を表示する
 - 検索結果のアイテムをタップしたら、該当リポジトリの詳細（リポジトリ名、オーナーアイコン、プロジェクト言語、Star 数、Watcher 数、Fork 数、Issue 数）を表示する
-
-### デザイン
-
-マテリアルデザインに準拠すること
 
 ## 評価ポイント
 
