@@ -1,4 +1,4 @@
-import 'package:flutter_enginner_codecheck/schema/github/search_response/search_response_license.dart';
+import 'package:flutter_enginner_codecheck/model/github/search_response/search_response_license.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'search_response_item.g.dart';

@@ -16,6 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$ThemeModel {
+  /// テーマモード
   ThemeMode get themeMode => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -94,6 +95,7 @@ class __$$_ThemeModelCopyWithImpl<$Res>
 class _$_ThemeModel implements _ThemeModel {
   const _$_ThemeModel({this.themeMode = ThemeMode.system});
 
+  /// テーマモード
   @override
   @JsonKey()
   final ThemeMode themeMode;
@@ -126,6 +128,8 @@ abstract class _ThemeModel implements ThemeModel {
   const factory _ThemeModel({final ThemeMode themeMode}) = _$_ThemeModel;
 
   @override
+
+  /// テーマモード
   ThemeMode get themeMode;
   @override
   @JsonKey(ignore: true)
