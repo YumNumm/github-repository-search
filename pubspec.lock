@@ -183,6 +183,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
+  dynamic_color:
+    dependency: "direct main"
+    description:
+      name: dynamic_color
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.5.4"
   expandable:
     dependency: "direct main"
     description:
@@ -533,7 +540,7 @@ packages:
     source: hosted
     version: "2.0.2"
   shared_preferences:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: shared_preferences
       url: "https://pub.dartlang.org"
