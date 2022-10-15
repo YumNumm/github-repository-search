@@ -17,20 +17,24 @@ class RepositorySearchViewModel
 
   final GitHubRepository _gitHubRepository = GitHubRepository();
 
+  /// Infinite Paging のためのページ数
   int page = 1;
-  String latestQuery = '';
+  SearchParam param = SearchParam(
+    query: '',
+  );
+
+  /// パラメータをセット
+  void setParam(String query) {
+    state = const AsyncData([]);
+    param = SearchParam(
+      query: query,
+      perPage: 100,
+    );
+  }
 
   Future<void> fetch({
-    required String query,
     bool isLoadMore = false,
   }) async {
-    if (query == '') {
-      throw Exception('query is empty');
-    }
-    if (latestQuery != query) {
-      state = const AsyncValue.data([]);
-      latestQuery = query;
-    }
     if (isLoadMore) {
       page++;
     } else {
@@ -42,11 +46,7 @@ class RepositorySearchViewModel
       () async {
         // 新規部分の取得
         final res = await _gitHubRepository.fetch(
-          SearchParam(
-            query: query,
-            page: page,
-            perPage: 50,
-          ),
+          param,
         );
 
         // 既存のデータと新規のデータを結合
@@ -63,7 +63,6 @@ class RepositorySearchViewModel
       return;
     }
     fetch(
-      query: latestQuery,
       isLoadMore: true,
     );
   }
@@ -72,8 +71,6 @@ class RepositorySearchViewModel
     state =
         const AsyncLoading<List<SearchResponseItem>>().copyWithPrevious(state);
     page = 1;
-    await fetch(
-      query: latestQuery,
-    );
+    await fetch();
   }
 }

@@ -10,6 +10,7 @@ class SearchPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const SearchViewAppBar(),
+      floatingActionButton: const RepositorySearchFloatingActionButton(),
       body: Column(
         children: const [
           RepositorySearchTextField(),
@@ -17,6 +18,25 @@ class SearchPage extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class RepositorySearchFloatingActionButton extends ConsumerWidget {
+  const RepositorySearchFloatingActionButton({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(repositorySearchViewMoel);
+    if (state.value?.isEmpty ?? true) {
+      return FloatingActionButton.extended(
+        onPressed: () => ref.read(repositorySearchViewMoel.notifier).fetch(),
+        label: const Text('検索'),
+        icon: const Icon(Icons.search),
+      );
+    }
+    return const SizedBox.shrink();
   }
 }
 
@@ -32,8 +52,10 @@ class RepositorySearchTextField extends ConsumerWidget {
       child: TextFormField(
         //  onChanged: (value) =>
         //      ref.read(repositorySearchViewMoel.notifier).fetch(query: value),
-        onFieldSubmitted: (value) =>
-            ref.read(repositorySearchViewMoel.notifier).fetch(query: value),
+        onChanged: (value) =>
+            ref.read(repositorySearchViewMoel.notifier).setParam(
+                  value,
+                ),
         decoration: const InputDecoration(
           hintText: 'Search',
           border: OutlineInputBorder(
@@ -57,7 +79,8 @@ class RepositorySearchList extends ConsumerWidget {
     final data = ref.watch(repositorySearchViewMoel);
     return NotificationListener<ScrollEndNotification>(
       onNotification: (notification) {
-        if (notification.metrics.extentAfter == 0) {
+        if (notification.metrics.extentAfter == 0 &&
+            (data.value?.isNotEmpty ?? false)) {
           ref.read(repositorySearchViewMoel.notifier).loadMore();
           return true;
         }
@@ -66,8 +89,6 @@ class RepositorySearchList extends ConsumerWidget {
       child: Scrollbar(
         child: CustomScrollView(
           slivers: [
-            // RefreshControll
-
             data.when<Widget>(
               data: (items) {
                 return SliverList(
@@ -75,7 +96,10 @@ class RepositorySearchList extends ConsumerWidget {
                     (context, index) {
                       if (index == items.length) {
                         // InfiniteScroll Indicator
-                        return const Center(child: CircularProgressIndicator());
+                        return const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 32),
+                          child: Center(child: CircularProgressIndicator()),
+                        );
                       }
                       final item = items[index];
                       return RepositoryItemWidget(item: item);
@@ -89,12 +113,32 @@ class RepositorySearchList extends ConsumerWidget {
                   child: CircularProgressIndicator(),
                 ),
               ),
-              error: (error, stack) => const SliverFillRemaining(
-                // TODO(YumNumm): 例外処理
-                child: Center(
-                  child: Text('Error'),
-                ),
-              ),
+              error: (error, stack) {
+                if (data.hasValue) {
+                  final items = data.value!;
+                  return SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        if (index == items.length) {
+                          // Error Widget
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        final item = items[index];
+                        return RepositoryItemWidget(item: item);
+                      },
+                      childCount: items.length + (data.isLoading ? 1 : 0),
+                    ),
+                  );
+                }
+                return SliverFillRemaining(
+                  // TODO(YumNumm): 例外処理
+                  child: Center(
+                    child: Text('$error'),
+                  ),
+                );
+              },
             ),
           ],
         ),
@@ -115,7 +159,7 @@ class RepositoryItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(item.fullName),
-      subtitle: Text(item.fullName),
+      subtitle: Text(item.createdAt.toString()),
       leading: CircleAvatar(
         backgroundImage: NetworkImage(item.owner.avatarUrl),
         backgroundColor: Colors.transparent,
