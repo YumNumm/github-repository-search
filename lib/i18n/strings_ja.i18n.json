@@ -1,0 +1,25 @@
+{
+  "appName": "GitHub Repository Search",
+  "mainScreen": {
+    "search": "検索",
+    "searchPlaceholder": "レポジトリを検索",
+    "repositoryResult": "$count件のレポジトリが見つかりました",
+    "noRepositoriesFound": "レポジトリが見つかりませんでした",
+    "unknownError": "不明なエラーが発生しました"
+  },
+  "routeErrorView": {
+    "title": "ページ遷移エラー",
+    "message": "ページ遷移中にエラーが発生しました",
+    "back": "戻る"
+  },
+  "HttpErrorMessage": {
+    "Error422": "検索キーワードを再度確認してください",
+    "Error503": "しばらく時間をおいてから再度お試しください",
+    "connectionError": "通信環境の良い場所で再度お試しください",
+    "unknownError": "不明なエラーが発生しました"
+  },
+  "locales(map)": {
+    "en": "英語",
+    "ja": "日本語"
+  }
+}

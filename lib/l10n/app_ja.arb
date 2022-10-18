@@ -1,6 +1,0 @@
-{
-  "@@locale": "ja",
-  "helloWorld": "こんにちは、世界！",
-  "since": "{YEAR}年からやってます",
-  "lastUpdatedAt": "最終更新: {DATE}"
-}

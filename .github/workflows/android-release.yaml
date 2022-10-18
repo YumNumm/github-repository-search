@@ -55,6 +55,9 @@ jobs:
       - name: Generate codes with build_runner
         run: flutter pub run build_runner build --delete-conflicting-outputs
 
+      - name: Generate i18n
+        run: flutter pub run slang
+
       - name: Accept Android License
         run: yes | flutter doctor --android-licenses
 

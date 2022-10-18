@@ -1,6 +1,6 @@
 {
-    "name": "flutter_enginner_codecheck",
-    "short_name": "flutter_enginner_codecheck",
+    "name": "github_repository_search",
+    "short_name": "github_repository_search",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

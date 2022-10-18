@@ -1,4 +1,4 @@
-name: flutter_enginner_codecheck
+name: github_repository_search
 description: A new Flutter project.
 
 publish_to: "none"
@@ -32,6 +32,8 @@ dependencies:
   retrofit: ^3.3.1
   shared_preferences: ^2.0.15
   shimmer: ^2.0.0
+  slang: ^3.1.0
+  slang_flutter: ^3.1.0
   substring_highlight: ^1.0.33
   url_launcher: ^6.1.6
 
@@ -45,8 +47,12 @@ dev_dependencies:
   json_serializable: ^6.5.1
   pedantic_mono: ^1.20.0
   retrofit_generator: ^4.2.0
+  slang_build_runner: ^3.1.0
   test: ^1.21.4
 
 flutter:
   uses-material-design: true
   generate: true
+
+  assets:
+    - assets/

@@ -1,0 +1,13 @@
+base_locale: en
+fallback_strategy: base_locale
+input_directory: lib/i18n
+output_directory: lib/i18n
+output_file_name: translations.g.dart
+output_format: single_file
+locale_handling: true
+flutter_integration: true
+translate_var: t
+translation_class_visibility: private
+flat_map: false
+translation_overrides: false
+timestamp: true

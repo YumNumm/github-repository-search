@@ -1,0 +1,25 @@
+{
+  "appName": "GitHub Repository Search",
+  "mainScreen": {
+    "search": "Search",
+    "searchPlaceholder": "Search for a Repository",
+    "repositoryResult": "$count Repositories",
+    "noRepositoriesFound": "No repositories found",
+    "unknownError": "An unknown error occurred"
+  },
+  "routeErrorView": {
+    "title": "Route Error",
+    "message": "An error occurred while navigating to the requested page",
+    "back": "Back"
+  },
+  "HttpErrorMessage": {
+    "Error422": "Check your search query and try again",
+    "Error503": "Try again later",
+    "connectionError": "Check your internet connection and try again later",
+    "unknownError": "An unknown error occurred"
+  },
+  "locales(map)": {
+    "en": "English",
+    "ja": "Japanese"
+  }
+}
