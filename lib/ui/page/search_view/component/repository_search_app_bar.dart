@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../i18n/translations.g.dart';
+
 class SearchViewAppBar extends StatelessWidget implements PreferredSizeWidget {
   const SearchViewAppBar({
     super.key,
@@ -10,8 +12,16 @@ class SearchViewAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final i18n = Translations.of(context);
+
     return AppBar(
-      title: const Text('GitHub Repository Search'),
+      title: Text(i18n.appName),
+      actions: [
+        IconButton(
+          onPressed: () {},
+          icon: const Icon(Icons.settings),
+        ),
+      ],
     );
   }
 }

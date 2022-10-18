@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_enginner_codecheck/ui/page/search_view/search_view.viewmodel.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:github_repository_search/ui/page/search_view/search_view.viewmodel.dart';
+import 'package:substring_highlight/substring_highlight.dart';
+
+import '../../../../i18n/translations.g.dart';
 
 class RepositorySearchTotalCountWidget extends ConsumerWidget {
   const RepositorySearchTotalCountWidget({
@@ -11,6 +14,8 @@ class RepositorySearchTotalCountWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(totalRepositoryCountProvider);
     final t = Theme.of(context);
+    final i18n = Translations.of(context);
+
     return state.when<Widget>(
       data: (value) {
         if (value == null) {
@@ -21,20 +26,13 @@ class RepositorySearchTotalCountWidget extends ConsumerWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(8),
-              child: Wrap(
-                alignment: WrapAlignment.end,
-                children: [
-                  Text(
-                    '$value',
-                    style: t.textTheme.bodyLarge,
-                    overflow: TextOverflow.visible,
-                  ),
-                  const SizedBox(width: 2),
-                  const Text(
-                    'Repository results',
-                    overflow: TextOverflow.visible,
-                  ),
-                ],
+              child: SubstringHighlight(
+                text: i18n.mainScreen.repositoryResult(count: value),
+                term: value.toString(),
+                textStyle: t.textTheme.bodyMedium!,
+                textStyleHighlight: t.textTheme.bodyLarge!.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ],

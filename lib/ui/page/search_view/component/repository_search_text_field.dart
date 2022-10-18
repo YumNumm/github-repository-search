@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../i18n/translations.g.dart';
 import '../search_view.viewmodel.dart';
 
 class RepositorySearchTextField extends ConsumerWidget {
@@ -11,16 +12,20 @@ class RepositorySearchTextField extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final controller = TextEditingController();
+    final focusNode = FocusNode();
+    final i18n = Translations.of(context);
     return Padding(
       padding: const EdgeInsets.all(8),
       child: TextFormField(
         controller: controller,
+        focusNode: focusNode,
         onChanged: (value) =>
             ref.read(repositorySearchViewModel.notifier).setParam(
                   value,
                 ),
+        onEditingComplete: focusNode.unfocus,
         decoration: InputDecoration(
-          hintText: 'Search',
+          hintText: i18n.mainScreen.searchPlaceholder,
           prefixIcon: const Icon(Icons.search),
           suffixIcon: IconButton(
             onPressed: controller.clear,

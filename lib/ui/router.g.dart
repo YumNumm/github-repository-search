@@ -8,6 +8,7 @@ part of 'router.dart';
 
 List<GoRoute> get $appRoutes => [
       $homeRoute,
+      $repositoryRoute,
     ];
 
 GoRoute get $homeRoute => GoRouteData.$route(
@@ -20,6 +21,25 @@ extension $HomeRouteExtension on HomeRoute {
 
   String get location => GoRouteData.$location(
         '/',
+      );
+
+  void go(BuildContext context) => context.go(location, extra: this);
+
+  void push(BuildContext context) => context.push(location, extra: this);
+}
+
+GoRoute get $repositoryRoute => GoRouteData.$route(
+      path: '/repository/:id',
+      factory: $RepositoryRouteExtension._fromState,
+    );
+
+extension $RepositoryRouteExtension on RepositoryRoute {
+  static RepositoryRoute _fromState(GoRouterState state) => RepositoryRoute(
+        id: int.parse(state.params['id']!),
+      );
+
+  String get location => GoRouteData.$location(
+        '/repository/${Uri.encodeComponent(id.toString())}',
       );
 
   void go(BuildContext context) => context.go(location, extra: this);

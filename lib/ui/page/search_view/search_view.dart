@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_enginner_codecheck/ui/page/search_view/component/repository_search_app_bar.dart';
+import 'package:github_repository_search/ui/page/search_view/component/repository_search_app_bar.dart';
 
 import 'component/repository_search_floating_action_button.dart';
 import 'component/repository_search_list.dart';

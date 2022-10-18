@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_enginner_codecheck/model/github/search_param.dart';
-import 'package:flutter_enginner_codecheck/model/github/search_response.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:github_repository_search/model/github/search_param.dart';
+import 'package:github_repository_search/model/github/search_response.dart';
 
 import '../api/repository_api_client.dart';
 

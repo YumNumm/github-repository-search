@@ -1,6 +1,6 @@
-import 'package:flutter_enginner_codecheck/model/github/search_param.dart';
-import 'package:flutter_enginner_codecheck/model/github/search_response/search_response_item.dart';
-import 'package:flutter_enginner_codecheck/repository/github_repository.dart';
+import 'package:github_repository_search/model/github/search_param.dart';
+import 'package:github_repository_search/model/github/search_response/search_response_item.dart';
+import 'package:github_repository_search/repository/github_repository.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final repositorySearchViewModel = StateNotifierProvider<
