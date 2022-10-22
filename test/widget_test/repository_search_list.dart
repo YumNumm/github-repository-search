@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:github_repository_search/model/github/search_param.dart';
 import 'package:github_repository_search/model/github/search_response.dart';
 import 'package:github_repository_search/model/github/search_response/search_response_item.dart';
@@ -9,8 +11,6 @@ import 'package:github_repository_search/model/github/search_response/search_res
 import 'package:github_repository_search/repository/github_repository.dart';
 import 'package:github_repository_search/ui/page/search_view/component/repository_search_total_count_widget.dart';
 import 'package:github_repository_search/ui/page/search_view/search_view.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_test/flutter_test.dart';
 
 class FakeGitHubRepository implements GitHubRepository {
   @override
@@ -63,6 +63,7 @@ class FakeGitHubRepository implements GitHubRepository {
             size: 10,
             url: 'https://github.com/YumNumm/github-repository-search',
             watchers: 30,
+            topics: [],
           ),
         ],
       ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../i18n/translations.g.dart';
+import '../../../../i18n/strings.g.dart';
 import '../search_view.viewmodel.dart';
 
 class RepositorySearchFloatingActionButton extends ConsumerWidget {
@@ -14,7 +14,10 @@ class RepositorySearchFloatingActionButton extends ConsumerWidget {
     final state = ref.watch(repositorySearchViewModel);
     if (state.value?.isEmpty ?? true) {
       return FloatingActionButton.extended(
-        onPressed: () => ref.read(repositorySearchViewModel.notifier).fetch(),
+        onPressed: () {
+          primaryFocus?.unfocus();
+          ref.read(repositorySearchViewModel.notifier).fetch();
+        },
         label: Text(t.mainView.search),
         icon: const Icon(Icons.search),
       );

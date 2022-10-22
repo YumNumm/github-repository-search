@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../router.dart';
 
-import '../../../../i18n/translations.g.dart';
+import '../../../../i18n/strings.g.dart';
+import '../../../router.dart';
 
 class SearchViewAppBar extends StatelessWidget implements PreferredSizeWidget {
   const SearchViewAppBar({
@@ -13,7 +13,6 @@ class SearchViewAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return AppBar(
       title: Text(t.appName),
       actions: [

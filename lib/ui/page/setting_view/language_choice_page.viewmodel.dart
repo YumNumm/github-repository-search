@@ -1,9 +1,9 @@
 import 'package:flutter/painting.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../provider/shared_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../i18n/translations.g.dart';
+import '../../../i18n/strings.g.dart';
+import '../../../provider/shared_preferences.dart';
 
 final languageProvider = StateNotifierProvider<LanguageNotifier, AppLocale>(
   LanguageNotifier.new,
@@ -31,7 +31,8 @@ class LanguageNotifier extends StateNotifier<AppLocale> {
       ref.read(sharedPreferencesProvider).getString(languagePrefsKey) ??
       LocaleSettings.useDeviceLocale().languageCode;
 
-  static String? getLanguageFromPrefs(SharedPreferences prefs) => prefs.getString(languagePrefsKey);
+  static String? getLanguageFromPrefs(SharedPreferences prefs) =>
+      prefs.getString(languagePrefsKey);
 
   /// SharedPreferencesに設定を保存する
   Future<void> _saveSettingsToSharedPrefrences(String languageCode) async {
@@ -45,6 +46,6 @@ class LanguageNotifier extends StateNotifier<AppLocale> {
   }
 }
 
-Future<String?> getCurrentLanguage(SharedPreferences prefs) async{
-
+Future<String?> getCurrentLanguage(SharedPreferences prefs) async {
+  return null;
 }

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +8,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'i18n/translations.g.dart';
+// ignore: depend_on_referenced_packages
+
+import 'i18n/strings.g.dart';
 import 'provider/language_colors.dart';
 import 'provider/shared_preferences.dart';
 import 'ui/app.dart';
@@ -24,8 +28,14 @@ Future<void> main() async {
     Logger().e(error, stackTrace);
     return true;
   };
+
   // LanguageColorsを読み込み
+  final stopWatch = Stopwatch()..start();
   final languageColors = await loadLanguageColors();
+  log(
+    'Load LanguageColors took '
+    '${(stopWatch..stop()).elapsed.inMicroseconds / 1000}ms',
+  );
   // SharedPreferenceを初期化
   final prefs = await SharedPreferences.getInstance();
 

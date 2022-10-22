@@ -3,7 +3,7 @@
   "mainView": {
     "search": "Search",
     "searchPlaceholder": "Search for a Repository",
-    "repositoryResult": "$count Repositories",
+    "repositoryResult": "Found $count Repositories",
     "noRepositoriesFound": "No repositories found",
     "unknownError": "An unknown error occurred"
   },
@@ -12,11 +12,16 @@
     "message": "An error occurred while navigating to the requested page",
     "back": "Back"
   },
-  "HttpErrorMessage": {
-    "Error422": "Check your search query and try again",
-    "Error503": "Try again later",
-    "connectionError": "Check your internet connection and try again later",
-    "unknownError": "An unknown error occurred"
+  "DioError(map)": {
+    "cancel": "Request was cancelled",
+    "connectTimeout": "Connection timed out. Check your internet connection and try again later",
+    "receiveTimeout": "Recieve timed out. Check your internet connection and try again later",
+    "sendTimeout": "Send timed out. Check your internet connection and try again later",
+    "response(map)": {
+      "422": "Check your search query and try again",
+      "503": "Try again later"
+    },
+    "other": "Check your internet connection and try again later"
   },
   "locales(map)": {
     "en": "English",
@@ -36,5 +41,19 @@
     "darkDescription": "Based on black",
     "system": "System",
     "systemDescription": "Automatically switch theme based on system settings"
+  },
+  "repositoryDetailWidget": {
+    "owner": "Owner",
+    "stars": "Stars",
+    "forks": "Forks",
+    "watchers": "Watchers",
+    "openIssues": "Open Issues",
+    "pullRequests": "Pull Requests",
+    "language": "Language",
+    "license": "License",
+    "lastUpdated": "Last Updated",
+    "goToRepository": "Go to Repository",
+    "createdAt": "Created At $date",
+    "updatedAt": "Updated At $date"
   }
 }

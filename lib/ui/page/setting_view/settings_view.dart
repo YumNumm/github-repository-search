@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../../i18n/strings.g.dart';
 import '../../../provider/setting/theme_provider.dart';
+import '../../router.dart';
 import '../component/setting/custom_switch.dart';
 import '../component/setting/setting_section.dart';
-import 'theme_choice_page.dart';
-import '../../router.dart';
-
-import '../../../i18n/translations.g.dart';
 import 'settings_view.viewmodel.dart';
+import 'theme_choice_page.dart';
 
 class SettingView extends ConsumerWidget {
   const SettingView({super.key});

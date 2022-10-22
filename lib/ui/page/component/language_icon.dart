@@ -1,7 +1,8 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import '../../../provider/language_colors.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import '../../../provider/language_colors.dart';
 
 /// [language] に対応する色のアイコンを返す
 class LanguageIcon extends ConsumerWidget {

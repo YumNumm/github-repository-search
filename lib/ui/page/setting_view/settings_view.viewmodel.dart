@@ -1,12 +1,10 @@
 import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../provider/setting/theme_provider.dart';
-import '../../../provider/shared_preferences.dart';
 
-import '../../../i18n/translations.g.dart';
+import '../../../i18n/strings.g.dart';
+import '../../../provider/setting/theme_provider.dart';
 
 const int android12SdkVersion = 31;
 
@@ -24,13 +22,12 @@ Future<int> _getAndroidSdkVersion() async {
 }
 
 class SettingViewModel {
-  void onMaterialYouButtonTap(WidgetRef ref) => ref
-      .read(themeProvider.notifier)
-      .setUseDynamicColor(!ref.read(themeProvider).useDynamicColor);
+  void onMaterialYouButtonTap(WidgetRef ref) =>
+      ref.read(themeProvider.notifier).setUseDynamicColor(
+            useDynamicColor: !ref.read(themeProvider).useDynamicColor,
+          );
 }
 
 /// 現在の言語
 final currentLanguageStreamProvider =
     StreamProvider<AppLocale>((ref) => LocaleSettings.getLocaleStream());
-
-

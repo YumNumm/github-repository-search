@@ -66,11 +66,10 @@ class ThemeNotifier extends StateNotifier<ThemeModel> {
   /// ## ダイナミックカラーの利用変更
   /// [useDynamicColor] ダイナミックカラーを利用するかどうか
   /// 変更後、SharedPreferencesに設定を保存します
-  void setUseDynamicColor(bool useDynamicColor) {
+  void setUseDynamicColor({required bool useDynamicColor}) {
     state = state.copyWith(
       useDynamicColor: useDynamicColor,
     );
     _saveSettingsToSharedPrefrences();
   }
-
 }

@@ -1,5 +1,6 @@
-import 'search_response/search_response_item.dart';
 import 'package:json_annotation/json_annotation.dart';
+
+import 'search_response/search_response_item.dart';
 
 part 'search_response.g.dart';
 

@@ -37,6 +37,9 @@ jobs:
       - name: Generate codes with build_runner
         run: flutter pub run build_runner build -d
 
+      - name: Generate translations
+        run: flutter pub run slang
+
       - name: Accept Android License
         run: yes | flutter doctor --android-licenses
 

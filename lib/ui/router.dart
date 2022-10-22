@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'page/repository_view/repository_view.dart';
+import 'package:go_router/go_router.dart';
+
 import 'page/route_error_view/route_error_view.dart';
 import 'page/search_view/search_view.dart';
 import 'page/setting_view/language_choice_page.dart';
 import 'page/setting_view/settings_view.dart';
 import 'page/setting_view/theme_choice_page.dart';
-import 'package:go_router/go_router.dart';
 
 part 'router.g.dart';
 
@@ -21,21 +21,6 @@ class HomeRoute extends GoRouteData {
 
   @override
   Widget build(BuildContext context) => const SearchPage();
-}
-
-@TypedGoRoute<RepositoryRoute>(
-  path: '/repository/:id',
-)
-class RepositoryRoute extends GoRouteData {
-  const RepositoryRoute({
-    required this.id,
-  });
-
-  final int id;
-  @override
-  Widget build(BuildContext context) {
-    return RepositoryView(id: id);
-  }
 }
 
 @TypedGoRoute<SettingRoute>(

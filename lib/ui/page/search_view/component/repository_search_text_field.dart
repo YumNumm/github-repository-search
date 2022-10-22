@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../i18n/translations.g.dart';
+import '../../../../i18n/strings.g.dart';
 import '../search_view.viewmodel.dart';
 
 class RepositorySearchTextField extends ConsumerWidget {
@@ -11,7 +11,6 @@ class RepositorySearchTextField extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final vm = ref.watch(repositorySearchViewModel);
     final controller = TextEditingController(
       text: ref.read(searchRepositoryNameProvider),
     );

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../provider/setting/theme_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../../i18n/translations.g.dart';
+import '../../../i18n/strings.g.dart';
+import '../../../provider/setting/theme_provider.dart';
 
 class ThemeChoicePage extends HookConsumerWidget {
   const ThemeChoicePage({super.key});

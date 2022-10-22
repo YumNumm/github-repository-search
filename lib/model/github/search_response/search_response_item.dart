@@ -1,6 +1,7 @@
+import 'package:json_annotation/json_annotation.dart';
+
 import 'search_response_license.dart';
 import 'search_response_owner.dart';
-import 'package:json_annotation/json_annotation.dart';
 
 part 'search_response_item.g.dart';
 
@@ -36,6 +37,7 @@ class SearchResponseItem {
     required this.archived,
     required this.license,
     required this.owner,
+    required this.topics,
   });
 
   factory SearchResponseItem.fromJson(Map<String, dynamic> json) =>
@@ -88,6 +90,6 @@ class SearchResponseItem {
   final bool archived;
   final SearchResponseLicense? license;
   final SearchResponseOwner owner;
-
+  final List<String> topics;
   Map<String, dynamic> toJson() => _$SearchResponseItemToJson(this);
 }

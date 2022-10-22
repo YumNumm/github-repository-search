@@ -1,8 +1,12 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:substring_highlight/substring_highlight.dart';
+import 'package:url_launcher/url_launcher_string.dart';
+
+import '../../../../i18n/strings.g.dart';
 import '../../../../model/github/search_response/search_response_item.dart';
 import '../../component/language_icon.dart';
-import 'package:substring_highlight/substring_highlight.dart';
 
 class RepositoryItemWidget extends StatelessWidget {
   const RepositoryItemWidget({
@@ -28,6 +32,7 @@ class RepositoryItemWidget extends StatelessWidget {
     );
 
     final controller = ExpandableController(initialExpanded: false);
+    final numberFormatter = NumberFormat('#,###');
 
     final header = ListTile(
       onTap: controller.toggle,
@@ -44,7 +49,7 @@ class RepositoryItemWidget extends StatelessWidget {
               ),
               const SizedBox(width: 4),
               Text(
-                item.stargazersCount.toString(),
+                numberFormatter.format(item.stargazersCount),
                 style: theme.textTheme.bodyMedium,
               ),
               const SizedBox(width: 2),
@@ -89,19 +94,222 @@ class RepositoryItemWidget extends StatelessWidget {
         color: Colors.transparent,
         child: header,
       ),
-      expanded: Card(
-        color: theme.colorScheme.secondaryContainer.withOpacity(0.4),
-        elevation: 0,
-        child: InkWell(
-          onTap: controller.toggle,
-          child: Column(
-            children: [
-              IgnorePointer(
-                child: header,
+      expanded: RepositoryDetailWidget(
+        controller: controller,
+        header: header,
+        item: item,
+      ),
+    );
+  }
+}
+
+class RepositoryDetailWidget extends StatelessWidget {
+  RepositoryDetailWidget({
+    super.key,
+    required this.header,
+    required this.item,
+    required this.controller,
+  });
+
+  final ListTile header;
+  final SearchResponseItem item;
+  final ExpandableController controller;
+
+  final numberFormatter = NumberFormat('#,###');
+  final dateFormatter =
+      DateFormat.yMMMd(LocaleSettings.currentLocale.languageTag);
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Card(
+      color: theme.colorScheme.secondaryContainer.withOpacity(0.4),
+      elevation: 0,
+      child: InkWell(
+        onTap: controller.toggle,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            IgnorePointer(
+              child: header,
+            ),
+            const Divider(),
+            // Description
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: Column(
+                children: [
+                  if (item.description != null)
+                    Padding(
+                      padding: const EdgeInsets.all(4),
+                      child: Text(
+                        item.description ?? '',
+                        style: theme.textTheme.bodyMedium,
+                      ),
+                    ),
+                  // Watchers
+                  Padding(
+                    padding: const EdgeInsets.all(4),
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.remove_red_eye,
+                          size: 16,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          numberFormatter.format(item.watchersCount),
+                          style: theme.textTheme.bodyMedium,
+                        ),
+                        const SizedBox(width: 2),
+                        Text(
+                          t.repositoryDetailWidget.watchers,
+                          style: theme.textTheme.bodySmall,
+                        )
+                      ],
+                    ),
+                  ),
+                  // Forks
+                  Padding(
+                    padding: const EdgeInsets.all(4),
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.call_split,
+                          size: 16,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          numberFormatter.format(item.forksCount),
+                          style: theme.textTheme.bodyMedium,
+                        ),
+                        const SizedBox(width: 2),
+                        Text(
+                          t.repositoryDetailWidget.forks,
+                          style: theme.textTheme.bodySmall,
+                        )
+                      ],
+                    ),
+                  ),
+                  // Open issues
+                  Padding(
+                    padding: const EdgeInsets.all(4),
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.error_outline,
+                          size: 16,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          numberFormatter.format(item.openIssuesCount),
+                          style: theme.textTheme.bodyMedium,
+                        ),
+                        const SizedBox(width: 2),
+                        Text(
+                          t.repositoryDetailWidget.openIssues,
+                          style: theme.textTheme.bodySmall,
+                        )
+                      ],
+                    ),
+                  ),
+
+                  // License
+                  if (item.license != null)
+                    Padding(
+                      padding: const EdgeInsets.all(4),
+                      child: Row(
+                        children: [
+                          const Icon(
+                            Icons.book,
+                            size: 16,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            item.license!.name,
+                            style: theme.textTheme.bodyMedium,
+                          ),
+                        ],
+                      ),
+                    ),
+                  // Created at
+                  Padding(
+                    padding: const EdgeInsets.all(4),
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.access_time,
+                          size: 16,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          t.repositoryDetailWidget.createdAt(
+                            date:
+                                dateFormatter.format(item.createdAt.toLocal()),
+                          ),
+                          style: theme.textTheme.bodyMedium,
+                        ),
+                      ],
+                    ),
+                  ),
+                  // Updated at
+                  Padding(
+                    padding: const EdgeInsets.all(4),
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.access_time,
+                          size: 16,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          t.repositoryDetailWidget.updatedAt(
+                            date:
+                                dateFormatter.format(item.updatedAt.toLocal()),
+                          ),
+                          style: theme.textTheme.bodyMedium,
+                        ),
+                      ],
+                    ),
+                  ),
+                  // Owner
+                  Padding(
+                    padding: const EdgeInsets.all(4),
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.person,
+                          size: 16,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          item.owner.login,
+                          style: theme.textTheme.bodyMedium,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-              const Divider(),
-            ],
-          ),
+            ),
+            // Open in browser
+            Align(
+              alignment: Alignment.centerRight,
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: FloatingActionButton.extended(
+                  onPressed: () => launchUrlString(
+                    item.htmlUrl,
+                    mode: LaunchMode.externalNonBrowserApplication,
+                    webOnlyWindowName: '_blank',
+                  ),
+                  elevation: 1,
+                  label: Text(t.repositoryDetailWidget.goToRepository),
+                  icon: const Icon(Icons.open_in_new),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

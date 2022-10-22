@@ -12,11 +12,16 @@
     "message": "ページ遷移中にエラーが発生しました",
     "back": "戻る"
   },
-  "HttpErrorMessage": {
-    "Error422": "検索キーワードを再度確認してください",
-    "Error503": "しばらく時間をおいてから再度お試しください",
-    "connectionError": "通信環境の良い場所で再度お試しください",
-    "unknownError": "不明なエラーが発生しました"
+  "DioError(map)": {
+    "cancel": "リクエストがキャンセルされました。",
+    "connectTimeout": "接続がタイムアウトしました。ネットワーク接続を確認してください",
+    "receiveTimeout": "レスポンスがタイムアウトしました。ネットワーク接続を確認してください",
+    "sendTimeout": "リクエストがタイムアウトしました。ネットワーク接続を確認してください",
+    "response(map)": {
+      "422": "リクエストが不正です。検索キーワードを再度確認してください",
+      "503": "あとで再度お試しください"
+    },
+    "other": "ネットワークエラーが発生しました。ネットワーク接続を確認してください"
   },
   "locales(map)": {
     "en": "英語",
@@ -36,5 +41,19 @@
     "darkDescription": "黒を基調としたテーマ",
     "system": "システム設定",
     "systemDescription": "システム設定に合わせて自動でライトテーマとダークテーマが切り替わります"
+  },
+  "repositoryDetailWidget": {
+    "owner": "Owner",
+    "stars": "Stars",
+    "forks": "Forks",
+    "watchers": "Watchers",
+    "pullRequests": "Pull Requests",
+    "openIssues": "Open Issues",
+    "language": "言語",
+    "license": "ライセンス",
+    "lastUpdated": "最終更新",
+    "goToRepository": "レポジトリを開く",
+    "createdAt": "$dateに作成",
+    "updatedAt": "$dateに最終更新"
   }
 }

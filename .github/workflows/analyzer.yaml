@@ -36,5 +36,8 @@ jobs:
       - name: Generate codes with build_runner
         run: flutter pub run build_runner build -d
 
+      - name: Generate translations
+        run: flutter pub run slang
+
       - name: Flutter Analyze
         run: flutter analyze

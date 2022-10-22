@@ -1,12 +1,12 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import '../i18n/strings.g.dart';
 import '../provider/setting/theme_provider.dart';
 import 'router.dart';
 import 'theme.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-
-import '../i18n/translations.g.dart';
 
 class App extends ConsumerWidget {
   const App({super.key});
