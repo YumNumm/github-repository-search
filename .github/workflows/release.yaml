@@ -1,0 +1,144 @@
+name: release
+
+on:
+  push:
+    tags:
+      - "*.*.*"
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    steps:
+      ######## SETUP ########
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev
+
+      - uses: maxim-lobanov/setup-xcode@v1
+        if: matrix.os == 'macos-latest'
+        with:
+          xcode-version: latest-stable
+
+      - name: Show Xcode version
+        if: matrix.os == 'macos-latest'
+        run: xcodebuild -version
+
+      # https://github.com/kuhnroyal/flutter-fvm-config-action
+      - name: Fetch flutter config
+        uses: kuhnroyal/flutter-fvm-config-action@v1
+
+      # https://github.com/subosito/flutter-action
+      - name: Set up flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: ${{ env.FLUTTER_CHANNEL }}
+          cache: true
+          cache-key: ${{ env.FLUTTER_VERSION }}-${{ env.FLUTTER_CHANNEL }}
+
+      - name: Get Repository Information
+        if: matrix.os == 'ubuntu-latest'
+        id: version
+        run: |
+          REPOSITORY=$(echo ${{ github.repository }} | sed -e "s#.*/##")
+          echo REPOSITORY=$REPOSITORY >> $GITHUB_ENV
+
+      - name: Flutter version
+        run: flutter --version
+
+      - name: Flutter dependencies install
+        run: flutter pub get
+
+      - name: Generate codes with build_runner
+        run: flutter pub run build_runner build -d
+
+      - name: Generate translations
+        run: flutter pub run slang
+
+      - name: Generate i18n
+        run: flutter pub run slang
+
+      - name: Accept Android License
+        if: matrix.os == 'ubuntu-latest'
+        run: yes | flutter doctor --android-licenses
+
+      ######## Build ########
+      - name: Build apk
+        if: matrix.os == 'ubuntu-latest'
+        run: flutter build apk --release
+
+      - name: Build windows
+        if: matrix.os == 'windows-latest'
+        run: flutter build windows --release
+
+      - name: Build linux
+        if: matrix.os == 'ubuntu-latest'
+        run: flutter build linux --release
+
+      - name: Build web
+        if: matrix.os == 'ubuntu-latest'
+        run: flutter build web --release --web-renderer html --base-href /${{ env.REPOSITORY }}/
+
+      - name: Build ipa
+        if: matrix.os == 'macos-latest'
+        run: |
+          flutter build ios --release --no-codesign
+          mkdir -p Payload
+          mv ./build/ios/iphoneos/Runner.app Payload
+          zip -ry Payload.zip Payload/Runner.app
+          mv Payload.zip Payload.ipa
+          rm -rf Payload
+
+      ######## Upload ########
+      - name: Upload Android artifact
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+
+      - name: Upload Windows artifact
+        if: matrix.os == 'windows-latest'
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: release-windows
+          path: build/windows/runner/Release/
+
+      - name: Upload Linux artifact
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: release-linux
+          path: build/linux/
+
+      - name: Upload Web artifact
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: './build/web'
+
+      - name: Deploy to GitHub Pages
+        if: matrix.os == 'ubuntu-latest'
+        id: deployment
+        uses: actions/deploy-pages@v1
+
+      - name: Upload artifact
+        if: matrix.os == 'macos-latest'
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: release-ipa
+          path: Payload.ipa
+
+
+

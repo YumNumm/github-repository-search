@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -73,6 +75,7 @@ class RepositorySearchErrorWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     if (error.runtimeType == DioError) {
       final dioError = error as DioError;
+      log(dioError.type.toString());
       return SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -102,10 +105,13 @@ class RepositorySearchErrorWidget extends StatelessWidget {
                   case DioErrorType.response:
                     return Center(
                       child: Text(
-                        (t.DioError['response'] as Map<String, dynamic>)[
-                                    dioError.response!.statusCode.toString()]
-                                ?.toString() ??
-                            t.DioError['other']!.toString(),
+                        (dioError.response != null)
+                            ? (t.DioError['response'] as Map<String, dynamic>)[
+                                        dioError.response!.statusCode
+                                            .toString()]
+                                    ?.toString() ??
+                                t.DioError['other']!.toString()
+                            : t.DioError['other']!.toString(),
                         style: Theme.of(context).textTheme.headline6!.copyWith(
                               color: Theme.of(context).colorScheme.error,
                               fontWeight: FontWeight.bold,
