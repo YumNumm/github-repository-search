@@ -24,7 +24,11 @@ class RepositorySearchTextField extends ConsumerWidget {
             ref.read(repositorySearchViewModel.notifier).setParam(
                   value,
                 ),
-        onEditingComplete: focusNode.unfocus,
+        onFieldSubmitted: (value) {
+          ref.read(repositorySearchViewModel.notifier).fetch();
+          focusNode.unfocus();
+        },
+        keyboardType: TextInputType.text,
         decoration: InputDecoration(
           hintText: t.mainView.searchPlaceholder,
           prefixIcon: const Icon(Icons.search),
