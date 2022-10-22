@@ -24,10 +24,6 @@ Future<void> main() async {
       statusBarColor: Colors.transparent, // transparent status bar
     ),
   );
-  PlatformDispatcher.instance.onError = (error, stackTrace) {
-    Logger().e(error, stackTrace);
-    return true;
-  };
 
   // LanguageColorsを読み込み
   final stopWatch = Stopwatch()..start();
@@ -52,6 +48,8 @@ Future<void> main() async {
         sharedPreferencesProvider.overrideWithValue(prefs),
       ],
       child: DevicePreview(
+        // ignore: avoid_redundant_argument_values
+        enabled: !kReleaseMode,
         builder: (context) => TranslationProvider(
           child: const App(),
         ),

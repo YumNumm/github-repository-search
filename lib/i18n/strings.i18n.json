@@ -54,6 +54,7 @@
     "lastUpdated": "Last Updated",
     "goToRepository": "Go to Repository",
     "createdAt": "Created At $date",
-    "updatedAt": "Updated At $date"
+    "updatedAt": "Updated At $date",
+    "cannotLaunchUrl": "Failed to open the URL($url)"
   }
 }

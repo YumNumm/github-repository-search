@@ -1,8 +1,8 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:github_repository_search/ui/page/search_view/component/repository_item_widget.viewmodel.dart';
 import 'package:intl/intl.dart';
 import 'package:substring_highlight/substring_highlight.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../../i18n/strings.g.dart';
 import '../../../../model/github/search_response/search_response_item.dart';
@@ -118,6 +118,9 @@ class RepositoryDetailWidget extends StatelessWidget {
   final numberFormatter = NumberFormat('#,###');
   final dateFormatter =
       DateFormat.yMMMd(LocaleSettings.currentLocale.languageTag);
+
+  final RepositoryItemWidgetViewModel viewModel =
+      RepositoryItemWidgetViewModel();
 
   @override
   Widget build(BuildContext context) {
@@ -298,11 +301,7 @@ class RepositoryDetailWidget extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(8),
                 child: FloatingActionButton.extended(
-                  onPressed: () => launchUrlString(
-                    item.htmlUrl,
-                    mode: LaunchMode.externalNonBrowserApplication,
-                    webOnlyWindowName: '_blank',
-                  ),
+                  onPressed: () => viewModel.onItemPressed(context, item),
                   elevation: 1,
                   label: Text(t.repositoryDetailWidget.goToRepository),
                   icon: const Icon(Icons.open_in_new),

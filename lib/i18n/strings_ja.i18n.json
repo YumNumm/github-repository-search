@@ -54,6 +54,7 @@
     "lastUpdated": "最終更新",
     "goToRepository": "レポジトリを開く",
     "createdAt": "$dateに作成",
-    "updatedAt": "$dateに最終更新"
+    "updatedAt": "$dateに最終更新",
+    "cannotLaunchUrl": "URLを開けませんでした($url)"
   }
 }
