@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:github_repository_search/ui/router.dart';
+import '../../router.dart';
 
 import '../../../i18n/translations.g.dart';
 
@@ -9,9 +9,8 @@ class RouteErrorScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final i18n = Translations.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text(i18n.routeErrorView.title)),
+      appBar: AppBar(title: Text(t.routeErrorView.title)),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -19,7 +18,7 @@ class RouteErrorScreen extends StatelessWidget {
             SelectableText(error.toString()),
             ElevatedButton.icon(
               onPressed: () => const HomeRoute().go(context),
-              label: Text(i18n.routeErrorView.back),
+              label: Text(t.routeErrorView.back),
               icon: const Icon(Icons.arrow_back),
             ),
           ],

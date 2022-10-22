@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:github_repository_search/ui/page/repository_view/repository_view.dart';
-import 'package:github_repository_search/ui/page/route_error_view/route_error_view.dart';
-import 'package:github_repository_search/ui/page/search_view/search_view.dart';
-import 'package:github_repository_search/ui/page/setting_view/settings_view.dart';
+import 'page/repository_view/repository_view.dart';
+import 'page/route_error_view/route_error_view.dart';
+import 'page/search_view/search_view.dart';
+import 'page/setting_view/language_choice_page.dart';
+import 'page/setting_view/settings_view.dart';
+import 'page/setting_view/theme_choice_page.dart';
 import 'package:go_router/go_router.dart';
 
 part 'router.g.dart';
@@ -38,6 +40,14 @@ class RepositoryRoute extends GoRouteData {
 
 @TypedGoRoute<SettingRoute>(
   path: '/setting',
+  routes: [
+    TypedGoRoute<ThemeChoiceRoute>(
+      path: 'theme',
+    ),
+    TypedGoRoute<LanguageChoiceRoute>(
+      path: 'language',
+    ),
+  ],
 )
 class SettingRoute extends GoRouteData {
   const SettingRoute();
@@ -45,6 +55,24 @@ class SettingRoute extends GoRouteData {
   @override
   Widget build(BuildContext context) {
     return const SettingView();
+  }
+}
+
+class ThemeChoiceRoute extends GoRouteData {
+  const ThemeChoiceRoute();
+
+  @override
+  Widget build(BuildContext context) {
+    return const ThemeChoicePage();
+  }
+}
+
+class LanguageChoiceRoute extends GoRouteData {
+  const LanguageChoiceRoute();
+
+  @override
+  Widget build(BuildContext context) {
+    return const LanguageChoicePage();
   }
 }
 

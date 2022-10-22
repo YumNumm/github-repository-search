@@ -1,6 +1,6 @@
 {
   "appName": "GitHub Repository Search",
-  "mainScreen": {
+  "mainView": {
     "search": "Search",
     "searchPlaceholder": "Search for a Repository",
     "repositoryResult": "$count Repositories",
@@ -21,5 +21,20 @@
   "locales(map)": {
     "en": "English",
     "ja": "Japanese"
+  },
+  "settings": {
+    "title": "Settings",
+    "languageSetting": "Language",
+    "languageSettingDescription": "Select the language to use for the app",
+    "themeModeSetting": "Theme Mode",
+    "useDynamicColorTheme": "Use Dynamic Color Theme"
+  },
+  "themeModes": {
+    "light": "Light",
+    "lightDescription": "Based on white",
+    "dark": "Dark",
+    "darkDescription": "Based on black",
+    "system": "System",
+    "systemDescription": "Automatically switch theme based on system settings"
   }
 }

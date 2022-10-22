@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:github_repository_search/model/language-color/language_color.dart';
+import '../model/language-color/language_color.dart';
 
 /// [LanguageColor]のリストを保持するProvider
 final languageColorsProvider =

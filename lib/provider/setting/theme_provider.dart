@@ -14,26 +14,28 @@ final themeProvider = StateNotifierProvider<ThemeNotifier, ThemeModel>(
 class ThemeNotifier extends StateNotifier<ThemeModel> {
   ThemeNotifier()
       : super(
-          const ThemeModel(
-            themeMode: ThemeMode.system,
-          ),
+          const ThemeModel(),
         ) {
     loadSettingsFromSharedPrefrences();
   }
 
-  final String prefsKey = 'themeMode';
+  static const String themeModePrefsKey = 'themeMode';
+  static const String useDynamicColorPrefsKey = 'useDynamicColor';
 
   /// ## SharedPreferencesから設定を取得
   /// デフォルトはThemeMode.system
   Future<void> loadSettingsFromSharedPrefrences() async {
     final prefs = await SharedPreferences.getInstance();
-    final themeMode = prefs.getString(prefsKey);
+
+    final themeMode = prefs.getString(themeModePrefsKey);
     final themeModeEnum = ThemeMode.values.firstWhere(
       (element) => element.name == themeMode,
       orElse: () => ThemeMode.system,
     );
+    final useDynamicColor = prefs.getBool(useDynamicColorPrefsKey) ?? true;
     state = state.copyWith(
       themeMode: themeModeEnum,
+      useDynamicColor: useDynamicColor,
     );
   }
 
@@ -41,7 +43,8 @@ class ThemeNotifier extends StateNotifier<ThemeModel> {
   Future<void> _saveSettingsToSharedPrefrences() async {
     final prefs = await SharedPreferences.getInstance();
 
-    await prefs.setString(prefsKey, state.themeMode.name);
+    await prefs.setString(themeModePrefsKey, state.themeMode.name);
+    await prefs.setBool(useDynamicColorPrefsKey, state.useDynamicColor);
   }
 
   /// ## テーマを変更
@@ -59,4 +62,15 @@ class ThemeNotifier extends StateNotifier<ThemeModel> {
   bool get isDarkMode => (state.themeMode == ThemeMode.system)
       ? (SchedulerBinding.instance.window.platformBrightness == Brightness.dark)
       : state.themeMode == ThemeMode.dark;
+
+  /// ## ダイナミックカラーの利用変更
+  /// [useDynamicColor] ダイナミックカラーを利用するかどうか
+  /// 変更後、SharedPreferencesに設定を保存します
+  void setUseDynamicColor(bool useDynamicColor) {
+    state = state.copyWith(
+      useDynamicColor: useDynamicColor,
+    );
+    _saveSettingsToSharedPrefrences();
+  }
+
 }

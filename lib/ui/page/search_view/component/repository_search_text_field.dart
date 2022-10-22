@@ -11,9 +11,11 @@ class RepositorySearchTextField extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final controller = TextEditingController();
+    final vm = ref.watch(repositorySearchViewModel);
+    final controller = TextEditingController(
+      text: ref.read(searchRepositoryNameProvider),
+    );
     final focusNode = FocusNode();
-    final i18n = Translations.of(context);
     return Padding(
       padding: const EdgeInsets.all(8),
       child: TextFormField(
@@ -25,7 +27,7 @@ class RepositorySearchTextField extends ConsumerWidget {
                 ),
         onEditingComplete: focusNode.unfocus,
         decoration: InputDecoration(
-          hintText: i18n.mainScreen.searchPlaceholder,
+          hintText: t.mainView.searchPlaceholder,
           prefixIcon: const Icon(Icons.search),
           suffixIcon: IconButton(
             onPressed: controller.clear,

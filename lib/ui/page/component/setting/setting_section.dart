@@ -14,7 +14,7 @@ class SettingsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = Theme.of(context);
+    final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -24,7 +24,7 @@ class SettingsSection extends StatelessWidget {
             child: Text(
               title!,
               style: TextStyle(
-                color: t.colorScheme.primary,
+                color: theme.colorScheme.primary,
               ),
             ),
           ),

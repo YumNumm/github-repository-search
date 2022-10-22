@@ -12,6 +12,7 @@ dependencies:
   collection: ^1.16.0
 
   cupertino_icons: ^1.0.2
+  device_info_plus: ^7.0.1
   device_preview: ^1.1.0
   dio: ^4.0.6
   dio_http2_adapter: ^2.0.0
@@ -30,6 +31,7 @@ dependencies:
   json_annotation: ^4.7.0
   logger: ^1.1.0
   retrofit: ^3.3.1
+  riverpod_annotation: ^1.0.4
   shared_preferences: ^2.0.15
   shimmer: ^2.0.0
   slang: ^3.1.0
@@ -47,12 +49,12 @@ dev_dependencies:
   json_serializable: ^6.5.1
   pedantic_mono: ^1.20.0
   retrofit_generator: ^4.2.0
+  riverpod_generator: ^1.0.4
   slang_build_runner: ^3.1.0
   test: ^1.21.4
 
 flutter:
   uses-material-design: true
-  generate: true
 
   assets:
     - assets/

@@ -9,6 +9,7 @@ part of 'router.dart';
 List<GoRoute> get $appRoutes => [
       $homeRoute,
       $repositoryRoute,
+      $settingRoute,
     ];
 
 GoRoute get $homeRoute => GoRouteData.$route(
@@ -40,6 +41,59 @@ extension $RepositoryRouteExtension on RepositoryRoute {
 
   String get location => GoRouteData.$location(
         '/repository/${Uri.encodeComponent(id.toString())}',
+      );
+
+  void go(BuildContext context) => context.go(location, extra: this);
+
+  void push(BuildContext context) => context.push(location, extra: this);
+}
+
+GoRoute get $settingRoute => GoRouteData.$route(
+      path: '/setting',
+      factory: $SettingRouteExtension._fromState,
+      routes: [
+        GoRouteData.$route(
+          path: 'theme',
+          factory: $ThemeChoiceRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
+          path: 'language',
+          factory: $LanguageChoiceRouteExtension._fromState,
+        ),
+      ],
+    );
+
+extension $SettingRouteExtension on SettingRoute {
+  static SettingRoute _fromState(GoRouterState state) => const SettingRoute();
+
+  String get location => GoRouteData.$location(
+        '/setting',
+      );
+
+  void go(BuildContext context) => context.go(location, extra: this);
+
+  void push(BuildContext context) => context.push(location, extra: this);
+}
+
+extension $ThemeChoiceRouteExtension on ThemeChoiceRoute {
+  static ThemeChoiceRoute _fromState(GoRouterState state) =>
+      const ThemeChoiceRoute();
+
+  String get location => GoRouteData.$location(
+        '/setting/theme',
+      );
+
+  void go(BuildContext context) => context.go(location, extra: this);
+
+  void push(BuildContext context) => context.push(location, extra: this);
+}
+
+extension $LanguageChoiceRouteExtension on LanguageChoiceRoute {
+  static LanguageChoiceRoute _fromState(GoRouterState state) =>
+      const LanguageChoiceRoute();
+
+  String get location => GoRouteData.$location(
+        '/setting/language',
       );
 
   void go(BuildContext context) => context.go(location, extra: this);

@@ -9,6 +9,8 @@ class ThemeModel with _$ThemeModel {
     /// テーマモード
     @Default(ThemeMode.system) ThemeMode themeMode,
 
-    // TODO(YumNumm): 配色設定の実装
+    /// 可能な場合、ダイナミックカラーを利用するか
+    @Default(true) bool useDynamicColor,
+
   }) = _ThemeModel;
 }

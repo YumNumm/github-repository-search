@@ -1,8 +1,9 @@
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:github_repository_search/provider/setting/theme_provider.dart';
-import 'package:github_repository_search/ui/router.dart';
-import 'package:github_repository_search/ui/theme.dart';
+import '../provider/setting/theme_provider.dart';
+import 'router.dart';
+import 'theme.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../i18n/translations.g.dart';
@@ -12,21 +13,24 @@ class App extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final themeMode =
-        ref.watch(themeProvider.select((value) => value.themeMode));
+    final themeModeProvider = ref.watch(themeProvider);
     final router = ref.watch(routerProvider);
-    return MaterialApp.router(
-      title: 'GitHub Repository Search',
-      theme: lightTheme,
-      darkTheme: darkTheme,
-      themeMode: themeMode,
-      locale: TranslationProvider.of(context).flutterLocale,
-      supportedLocales: LocaleSettings.supportedLocales,
-      localizationsDelegates: GlobalMaterialLocalizations.delegates,
-      useInheritedMediaQuery: true,
-      routerDelegate: router.routerDelegate,
-      routeInformationParser: router.routeInformationParser,
-      routeInformationProvider: router.routeInformationProvider,
+    return DynamicColorBuilder(
+      builder: (lightDynamic, darkDynamic) => MaterialApp.router(
+        title: 'GitHub Repository Search',
+        theme:
+            lightTheme(themeModeProvider.useDynamicColor ? lightDynamic : null),
+        darkTheme:
+            darkTheme(themeModeProvider.useDynamicColor ? darkDynamic : null),
+        themeMode: themeModeProvider.themeMode,
+        locale: TranslationProvider.of(context).flutterLocale,
+        supportedLocales: LocaleSettings.supportedLocales,
+        localizationsDelegates: GlobalMaterialLocalizations.delegates,
+        useInheritedMediaQuery: true,
+        routerDelegate: router.routerDelegate,
+        routeInformationParser: router.routeInformationParser,
+        routeInformationProvider: router.routeInformationProvider,
+      ),
     );
   }
 }

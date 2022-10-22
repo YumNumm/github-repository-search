@@ -13,11 +13,10 @@ class RepositorySearchList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final data = ref.watch(repositorySearchViewModel);
     return NotificationListener<ScrollEndNotification>(
-      key: const Key('RepositorySearchList'),
       onNotification: (notification) {
         if (notification.metrics.extentAfter == 0 &&
             (data.value?.isNotEmpty ?? false)) {
-          ref.read(repositorySearchViewModel.notifier).loadMore();
+          ref.read(repositorySearchViewModel.notifier).loadMoreRepositories();
           return true;
         }
         return false;

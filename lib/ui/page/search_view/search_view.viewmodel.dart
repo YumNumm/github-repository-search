@@ -73,7 +73,7 @@ class RepositorySearchViewModel
     );
   }
 
-  void loadMore() {
+  void loadMoreRepositories() {
     if (state.isLoading || state.isRefreshing) {
       return;
     }

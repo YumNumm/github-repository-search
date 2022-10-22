@@ -1,5 +1,5 @@
-import 'package:github_repository_search/model/github/search_response/search_response_license.dart';
-import 'package:github_repository_search/model/github/search_response/search_response_owner.dart';
+import 'search_response_license.dart';
+import 'search_response_owner.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'search_response_item.g.dart';

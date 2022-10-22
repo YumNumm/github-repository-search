@@ -13,29 +13,27 @@ class RepositorySearchTotalCountWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(totalRepositoryCountProvider);
-    final t = Theme.of(context);
-    final i18n = Translations.of(context);
+    final theme = Theme.of(context);
 
     return state.when<Widget>(
       data: (value) {
         if (value == null) {
           return const SizedBox.shrink();
         }
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8),
-              child: SubstringHighlight(
-                text: i18n.mainScreen.repositoryResult(count: value),
-                term: value.toString(),
-                textStyle: t.textTheme.bodyMedium!,
-                textStyleHighlight: t.textTheme.bodyLarge!.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+        return Align(
+          alignment: Alignment.centerRight,
+          child: Padding(
+            padding: const EdgeInsets.all(8),
+            child: SubstringHighlight(
+              text: t.mainView.repositoryResult(count: value),
+              term: value.toString(),
+              overflow: TextOverflow.visible,
+              textStyle: theme.textTheme.bodyMedium!,
+              textStyleHighlight: theme.textTheme.bodyLarge!.copyWith(
+                fontWeight: FontWeight.bold,
               ),
             ),
-          ],
+          ),
         );
       },
       loading: () => const SizedBox.shrink(),

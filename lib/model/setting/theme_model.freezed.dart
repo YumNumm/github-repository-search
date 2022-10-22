@@ -19,6 +19,9 @@ mixin _$ThemeModel {
   /// テーマモード
   ThemeMode get themeMode => throw _privateConstructorUsedError;
 
+  /// 可能な場合、ダイナミックカラーを利用するか
+  bool get useDynamicColor => throw _privateConstructorUsedError;
+
   @JsonKey(ignore: true)
   $ThemeModelCopyWith<ThemeModel> get copyWith =>
       throw _privateConstructorUsedError;
@@ -30,7 +33,7 @@ abstract class $ThemeModelCopyWith<$Res> {
           ThemeModel value, $Res Function(ThemeModel) then) =
       _$ThemeModelCopyWithImpl<$Res, ThemeModel>;
   @useResult
-  $Res call({ThemeMode themeMode});
+  $Res call({ThemeMode themeMode, bool useDynamicColor});
 }
 
 /// @nodoc
@@ -47,12 +50,17 @@ class _$ThemeModelCopyWithImpl<$Res, $Val extends ThemeModel>
   @override
   $Res call({
     Object? themeMode = null,
+    Object? useDynamicColor = null,
   }) {
     return _then(_value.copyWith(
       themeMode: null == themeMode
           ? _value.themeMode
           : themeMode // ignore: cast_nullable_to_non_nullable
               as ThemeMode,
+      useDynamicColor: null == useDynamicColor
+          ? _value.useDynamicColor
+          : useDynamicColor // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -65,7 +73,7 @@ abstract class _$$_ThemeModelCopyWith<$Res>
       __$$_ThemeModelCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({ThemeMode themeMode});
+  $Res call({ThemeMode themeMode, bool useDynamicColor});
 }
 
 /// @nodoc
@@ -80,12 +88,17 @@ class __$$_ThemeModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object? themeMode = null,
+    Object? useDynamicColor = null,
   }) {
     return _then(_$_ThemeModel(
       themeMode: null == themeMode
           ? _value.themeMode
           : themeMode // ignore: cast_nullable_to_non_nullable
               as ThemeMode,
+      useDynamicColor: null == useDynamicColor
+          ? _value.useDynamicColor
+          : useDynamicColor // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -93,16 +106,22 @@ class __$$_ThemeModelCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_ThemeModel implements _ThemeModel {
-  const _$_ThemeModel({this.themeMode = ThemeMode.system});
+  const _$_ThemeModel(
+      {this.themeMode = ThemeMode.system, this.useDynamicColor = true});
 
   /// テーマモード
   @override
   @JsonKey()
   final ThemeMode themeMode;
 
+  /// 可能な場合、ダイナミックカラーを利用するか
+  @override
+  @JsonKey()
+  final bool useDynamicColor;
+
   @override
   String toString() {
-    return 'ThemeModel(themeMode: $themeMode)';
+    return 'ThemeModel(themeMode: $themeMode, useDynamicColor: $useDynamicColor)';
   }
 
   @override
@@ -111,11 +130,13 @@ class _$_ThemeModel implements _ThemeModel {
         (other.runtimeType == runtimeType &&
             other is _$_ThemeModel &&
             (identical(other.themeMode, themeMode) ||
-                other.themeMode == themeMode));
+                other.themeMode == themeMode) &&
+            (identical(other.useDynamicColor, useDynamicColor) ||
+                other.useDynamicColor == useDynamicColor));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, themeMode);
+  int get hashCode => Object.hash(runtimeType, themeMode, useDynamicColor);
 
   @JsonKey(ignore: true)
   @override
@@ -125,12 +146,17 @@ class _$_ThemeModel implements _ThemeModel {
 }
 
 abstract class _ThemeModel implements ThemeModel {
-  const factory _ThemeModel({final ThemeMode themeMode}) = _$_ThemeModel;
+  const factory _ThemeModel(
+      {final ThemeMode themeMode, final bool useDynamicColor}) = _$_ThemeModel;
 
   @override
 
   /// テーマモード
   ThemeMode get themeMode;
+  @override
+
+  /// 可能な場合、ダイナミックカラーを利用するか
+  bool get useDynamicColor;
   @override
   @JsonKey(ignore: true)
   _$$_ThemeModelCopyWith<_$_ThemeModel> get copyWith =>

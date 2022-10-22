@@ -12,11 +12,10 @@ class RepositorySearchFloatingActionButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(repositorySearchViewModel);
-    final i18n = Translations.of(context);
     if (state.value?.isEmpty ?? true) {
       return FloatingActionButton.extended(
         onPressed: () => ref.read(repositorySearchViewModel.notifier).fetch(),
-        label: Text(i18n.mainScreen.search),
+        label: Text(t.mainView.search),
         icon: const Icon(Icons.search),
       );
     }

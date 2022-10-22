@@ -1,9 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:github_repository_search/ui/page/search_view/search_view.viewmodel.dart';
-
-import '../../../i18n/translations.g.dart';
+import '../search_view/search_view.viewmodel.dart';
 
 class RepositoryView extends ConsumerWidget {
   const RepositoryView({required this.id, super.key});
@@ -15,8 +13,7 @@ class RepositoryView extends ConsumerWidget {
         .watch(repositorySearchViewModel)
         .value!
         .firstWhereOrNull((e) => e.id == id);
-    final t = Theme.of(context);
-    final i18n = Translations.of(context);
+    final theme = Theme.of(context);
     if (item == null) {
       throw Exception('不正なページ遷移が行われました');
     }
@@ -33,7 +30,7 @@ class RepositoryView extends ConsumerWidget {
               // Authorのアイコン・名前・レポジトリ名・言語
               Card(
                 elevation: 0,
-                color: t.colorScheme.secondaryContainer.withOpacity(0.4),
+                color: theme.colorScheme.secondaryContainer.withOpacity(0.4),
                 child: Padding(
                   padding: const EdgeInsets.all(8),
                   child: Row(
@@ -50,29 +47,20 @@ class RepositoryView extends ConsumerWidget {
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          // TODO(YumNumm): 画面が小さいデバイスだとOverFlowします
                           Text(
                             item.fullName,
-                            style: t.textTheme.headline6!.copyWith(
+                            style: theme.textTheme.headline6!.copyWith(
                               fontWeight: FontWeight.bold,
                             ),
                             overflow: TextOverflow.visible,
                           ),
                           const SizedBox(height: 4),
-                          const Text(
-                            'Flutter',
-                            style: TextStyle(
-                              color: Colors.grey,
-                            ),
-                          ),
+                          Text(item.owner.login),
                         ],
                       ),
                       const Spacer(),
-                      const Text(
-                        'Dart',
-                        style: TextStyle(
-                          color: Colors.grey,
-                        ),
-                      ),
+                      if (item.language != null) Text(item.language!),
                     ],
                   ),
                 ),

@@ -2,6 +2,10 @@
 
 [![Codemagic build status](https://api.codemagic.io/apps/634a758322ff8df16c567fd5/634a758322ff8df16c567fd4/status_badge.svg)](https://codemagic.io/apps/634a758322ff8df16c567fd5/634a758322ff8df16c567fd4/latest_build)
 
+[![Flutter build Android(r)](https://github.com/YumNumm/github-repository-search/actions/workflows/android-release.yaml/badge.svg)](https://github.com/YumNumm/github-repository-search/actions/workflows/android-release.yaml)
+
+[![wakatime](https://wakatime.com/badge/github/YumNumm/github-repository-search.svg)](https://wakatime.com/badge/github/YumNumm/github-repository-search)
+
 ## 要件
 
 ### 環境
