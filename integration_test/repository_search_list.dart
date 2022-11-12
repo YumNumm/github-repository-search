@@ -9,9 +9,12 @@ import 'package:github_repository_search/model/github/search_response.dart';
 import 'package:github_repository_search/model/github/search_response/search_response_item.dart';
 import 'package:github_repository_search/model/github/search_response/search_response_license.dart';
 import 'package:github_repository_search/model/github/search_response/search_response_owner.dart';
+import 'package:github_repository_search/provider/language_colors.dart';
 import 'package:github_repository_search/repository/github_repository.dart';
 import 'package:github_repository_search/ui/page/search_view/component/repository_search_total_count_widget.dart';
 import 'package:github_repository_search/ui/page/search_view/search_view.dart';
+import 'package:integration_test/integration_test.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 class FakeGitHubRepository implements GitHubRepository {
   @override
@@ -73,62 +76,67 @@ class FakeGitHubRepository implements GitHubRepository {
 }
 
 void main() {
+  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   setUpAll(() {
-    // 言語設定を日本語にする
-    LocaleSettings.setLocaleRaw('ja');
     //
     HttpOverrides.global = null;
   });
 
-  group('RepositorySearchList', () {
-    testWidgets('override GitHubRepository', (tester) async {
-      await tester.pumpWidget(
-        ProviderScope(
-          overrides: [
-            githubRepository.overrideWithValue(FakeGitHubRepository()),
-          ],
-          child: MaterialApp(
-            home: Consumer(
-              builder: (context, ref, child) {
-                return const SearchPage();
-              },
-            ),
+  testWidgets('RepositorySearchList', (tester) async {
+    // LanguageColorsを読み込み
+    final languageColors = await loadLanguageColors();
+
+    // 言語設定を日本語にする
+    LocaleSettings.useDeviceLocale();
+    await initializeDateFormatting('ja_JP');
+
+    // Widgetをレンダリングする
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          languageColorsProvider.overrideWithValue(languageColors),
+          githubRepository.overrideWithValue(FakeGitHubRepository()),
+        ],
+        child: TranslationProvider(
+          child: const MaterialApp(
+            home: SearchPage(),
           ),
         ),
-      );
-      // AppBarがあることを確認
-      expect(find.byType(AppBar), findsOneWidget);
+      ),
+    );
+    // 描画されるまで待つ
+    await tester.pumpAndSettle();
 
-      // TextFieldがあることを確認
-      expect(find.byType(TextField), findsOneWidget);
+    // AppBarがあることを確認
+    expect(find.byType(AppBar), findsOneWidget);
 
-      // TextFieldに`flutter`を入力
-      await tester.enterText(find.byType(TextField), 'flutter');
-      await tester.pumpAndSettle();
+    // TextFieldがあることを確認
+    expect(find.byType(TextField), findsOneWidget);
 
-      // 消去ボタンで入力を消去できることを確認
-      await tester.tap(find.byIcon(Icons.clear));
-      await tester.pumpAndSettle();
-      expect(find.text('flutter'), findsNothing);
+    // TextFieldに`flutter`を入力
+    await tester.enterText(find.byType(TextField), 'flutter');
+    await tester.pumpAndSettle();
 
-      // TextFieldに`flutter`を入力
-      await tester.enterText(find.byType(TextField), 'flutter');
-      await tester.pumpAndSettle();
+    // 消去ボタンで入力を消去できることを確認
+    final clearIconFinder = find.byIcon(Icons.clear);
+    // 消去ボタンを押す
+    await tester.tap(clearIconFinder);
+    await tester.pumpAndSettle();
+    final textFieldFinder = find.byType(TextField);
+    // TextFieldの値が空になっていることを確認
+    expect(tester.widget<TextField>(textFieldFinder).controller!.text, isEmpty);
 
-      // 検索ボタンを押下
-      await tester.tap(find.byType(FloatingActionButton));
+    // TextFieldに`flutter`を入力
+    await tester.enterText(find.byType(TextField), 'flutter');
+    await tester.pumpAndSettle();
 
-      // 検索結果が表示されるまで待機
-      await tester.pump();
+    // 検索ボタンを押下
+    await tester.tap(find.byType(FloatingActionButton));
 
-      // 検索結果が表示されていることを確認
-      expect(find.byType(RepositorySearchTotalCountWidget), findsOneWidget);
+    // 検索結果が表示されるまで待機
+    await tester.pumpAndSettle();
 
-      // 検索結果が1件であることを確認
-      expect(find.text('1'), findsOneWidget);
-
-      // FloatingActionButtonが表示されていないことを確認
-      expect(find.byType(FloatingActionButton), findsNothing);
-    });
+    // 検索結果が表示されていることを確認
+    expect(find.byType(RepositorySearchTotalCountWidget), findsOneWidget);
   });
 }
