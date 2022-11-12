@@ -102,7 +102,7 @@ void main() {
       await tester.enterText(find.byType(TextField), 'flutter');
       await tester.pumpAndSettle();
 
-      // 消去ボタンで入力を消去
+      // 消去ボタンで入力を消去できることを確認
       await tester.tap(find.byIcon(Icons.clear));
       await tester.pumpAndSettle();
       expect(find.text('flutter'), findsNothing);
