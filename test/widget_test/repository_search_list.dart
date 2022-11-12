@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:github_repository_search/i18n/strings.g.dart';
 import 'package:github_repository_search/model/github/search_param.dart';
 import 'package:github_repository_search/model/github/search_response.dart';
 import 'package:github_repository_search/model/github/search_response/search_response_item.dart';
@@ -73,6 +74,9 @@ class FakeGitHubRepository implements GitHubRepository {
 
 void main() {
   setUpAll(() {
+    // 言語設定を日本語にする
+    LocaleSettings.setLocaleRaw('ja');
+    //
     HttpOverrides.global = null;
   });
 
