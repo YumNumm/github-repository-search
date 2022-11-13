@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -32,7 +30,7 @@ class FakeGitHubRepository implements GitHubRepository {
             stargazersCount: 1,
             watchersCount: 1,
             forksCount: 1,
-            language: 'test',
+            language: 'dart',
             createdAt: DateTime.now(),
             updatedAt: DateTime.now(),
             archived: false,
@@ -77,15 +75,10 @@ class FakeGitHubRepository implements GitHubRepository {
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
-  setUpAll(() {
-    //
-    HttpOverrides.global = null;
-  });
 
   testWidgets('RepositorySearchList', (tester) async {
     // LanguageColorsを読み込み
     final languageColors = await loadLanguageColors();
-
     // 言語設定を日本語にする
     LocaleSettings.useDeviceLocale();
     await initializeDateFormatting('ja_JP');
@@ -105,7 +98,7 @@ void main() {
       ),
     );
     // 描画されるまで待つ
-    await tester.pumpAndSettle();
+    await tester.pump();
 
     // AppBarがあることを確認
     expect(find.byType(AppBar), findsOneWidget);
@@ -115,20 +108,20 @@ void main() {
 
     // TextFieldに`flutter`を入力
     await tester.enterText(find.byType(TextField), 'flutter');
-    await tester.pumpAndSettle();
+    await tester.pump();
 
     // 消去ボタンで入力を消去できることを確認
     final clearIconFinder = find.byIcon(Icons.clear);
     // 消去ボタンを押す
     await tester.tap(clearIconFinder);
-    await tester.pumpAndSettle();
+    await tester.pump();
     final textFieldFinder = find.byType(TextField);
     // TextFieldの値が空になっていることを確認
     expect(tester.widget<TextField>(textFieldFinder).controller!.text, isEmpty);
 
     // TextFieldに`flutter`を入力
     await tester.enterText(find.byType(TextField), 'flutter');
-    await tester.pumpAndSettle();
+    await tester.pump();
 
     // 検索ボタンを押下
     await tester.tap(find.byType(FloatingActionButton));
