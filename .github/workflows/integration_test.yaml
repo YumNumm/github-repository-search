@@ -1,0 +1,81 @@
+name: Flutter Integration Test
+
+#発火条件
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  integration_test_ios:
+    runs-on: macos-12
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        device:
+          - "iPhone 14 Pro Max"
+          - "iPhone 8"
+          - "iPad Pro (12.9-inch) (6th generation)"
+
+    steps:
+      - uses: actions/checkout@v2
+
+      ######### XCODE #########
+      # Xcodeのバージョンを一覧
+      - name: List Xcode versions
+        run: ls /Applications | grep 'Xcode'
+
+      # Xcode 14.1を利用
+      # ref: https://github.com/actions/runner-images/blob/main/images/macos/macos-12-Readme.md#xcode
+      - name: Select Xcode version
+        run: sudo xcode-select -s '/Applications/Xcode_14.1.app/Contents/Developer'
+
+      - name: Show Xcode version
+        run: xcodebuild -version
+
+      # Simulation の利用可能なデバイス一覧
+      - name: List Simulator devices
+        run: xcrun simctl list devices --json
+
+      # Simulator を起動 (matrix.device で指定したデバイス)
+      # ref: https://goyoki.hatenablog.com/entry/2021/01/23/011844
+      # ref: https://www.geekco.fr/posts/en/how-to-add-flutter-integration-test-in-a-ci-with-github-action
+      - name: Start Simulator (${{ matrix.device }})
+        timeout-minutes: 10
+        run: |
+          UDID=$(xcrun simctl list devices --json |  jq '.devices."com.apple.CoreSimulator.SimRuntime.iOS-16-1"[] | select (.name == "${{ matrix.device }}") | .udid' -r )
+          echo $UDID
+          xcrun simctl boot "${UDID:?No Simulator with this name found}"
+
+      ######### FLUTTER #########
+      # https://github.com/kuhnroyal/flutter-fvm-config-action
+      - name: Fetch flutter config
+        uses: kuhnroyal/flutter-fvm-config-action@v1
+
+      # https://github.com/subosito/flutter-action
+      - name: Set up flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: ${{ env.FLUTTER_CHANNEL }}
+          cache: true
+          cache-key: ${{ env.FLUTTER_VERSION }}-${{ env.FLUTTER_CHANNEL }}
+
+      - name: Flutter version
+        run: flutter --version
+
+      - name: Flutter dependencies install
+        run: flutter pub get
+
+      - name: Generate codes with build_runner
+        run: flutter pub run build_runner build -d
+
+      - name: Generate translations
+        run: flutter pub run slang
+
+      - name: Accept Android License
+        run: yes | flutter doctor --android-licenses
+
+      - name: Run Integration Test
+        run: flutter test integration_test
