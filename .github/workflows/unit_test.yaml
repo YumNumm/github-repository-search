@@ -3,8 +3,7 @@ name: Flutter Unit Test
 #発火条件
 on:
   push:
-    branches: [main]
-
+  pull_request:
   workflow_dispatch:
 
 jobs:
@@ -44,11 +43,4 @@ jobs:
         run: yes | flutter doctor --android-licenses
 
       - name: Flutter Test
-        run: flutter test --no-test-assets --coverage --coverage-path=~/coverage/lcov.info
-
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v1
-        with:
-          file: ~/coverage/lcov.info
-          flags: UnitTest
-          token: ${{ secrets.CODECOV_TOKEN }}
+        run: flutter test

@@ -16,6 +16,7 @@ class RepositorySearchFloatingActionButton extends ConsumerWidget {
       loading: () => const SizedBox.shrink(),
       error: (_, __) => const SizedBox.shrink(),
       data: (data) => FloatingActionButton.extended(
+        heroTag: 'RepositorySearchFloatingActionButton',
         onPressed: () {
           primaryFocus?.unfocus();
           ref.read(repositorySearchViewModel.notifier).fetch();
