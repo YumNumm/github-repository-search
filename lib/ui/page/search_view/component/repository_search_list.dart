@@ -27,12 +27,11 @@ class RepositorySearchList extends ConsumerWidget {
             if (!data.hasValue) {
               return false;
             }
-            
-            final scrollPosition = notification.metrics.pixels / notification.metrics.maxScrollExtent;
-            
-            
-            if (scrollPosition > 0.8 &&
-                (data.value!.isNotEmpty)) {
+
+            final scrollPosition = notification.metrics.pixels /
+                notification.metrics.maxScrollExtent;
+
+            if (scrollPosition > 0.8 && (data.value!.isNotEmpty)) {
               // 既に検索結果を全て読み込んでいる場合は、
               // 次のページを読み込む処理を行わない
               if (data.value!.length ==
