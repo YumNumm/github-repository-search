@@ -39,7 +39,9 @@ class RepositorySearchViewModel
   Future<void> fetch({
     bool isLoadMore = false,
   }) async {
-    if (ref.read(searchRepositoryNameProvider) == null) {
+    // 検索キーワード
+    final query = ref.read(searchRepositoryNameProvider);
+    if (query == null) {
       return;
     }
     if (isLoadMore) {
@@ -58,7 +60,7 @@ class RepositorySearchViewModel
         final res = await _gitHubRepository.fetch(
           SearchParam.paging(
             page,
-            SearchParam(query: ref.read(searchRepositoryNameProvider)!),
+            SearchParam(query: query),
           ),
         );
         ref.read(totalRepositoryCountProvider.notifier).state =
