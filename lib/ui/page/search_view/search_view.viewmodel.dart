@@ -9,6 +9,7 @@ final repositorySearchViewModel = StateNotifierProvider<
 );
 
 /// 検索結果の合計Repo数
+/// nullの場合は検索実行前
 final totalRepositoryCountProvider =
     StateProvider<AsyncValue<int?>>((ref) => const AsyncValue.data(null));
 
@@ -48,9 +49,11 @@ class RepositorySearchViewModel
       page++;
     } else {
       page = 1;
+      // 初回読み込みなので、レポジトリの合計数をクリア
       ref.read(totalRepositoryCountProvider.notifier).state =
           const AsyncValue.loading();
     }
+    // 読み込み中にする
     state =
         const AsyncLoading<List<SearchResponseItem>>().copyWithPrevious(state);
 
@@ -63,6 +66,7 @@ class RepositorySearchViewModel
             SearchParam(query: query),
           ),
         );
+        // レポジトリの合計数を更新
         ref.read(totalRepositoryCountProvider.notifier).state =
             AsyncValue.data(res.totalCount);
 
@@ -76,12 +80,11 @@ class RepositorySearchViewModel
   }
 
   void loadMoreRepositories() {
+    // 既に読み込み中なら何もしない
     if (state.isLoading || state.isRefreshing) {
       return;
     }
-    fetch(
-      isLoadMore: true,
-    );
+    fetch(isLoadMore: true);
   }
 
   Future<void> refresh() async {
@@ -89,5 +92,12 @@ class RepositorySearchViewModel
         const AsyncLoading<List<SearchResponseItem>>().copyWithPrevious(state);
     page = 1;
     await fetch();
+  }
+
+  /// 検索結果をクリア
+  void clear() {
+    state = const AsyncValue.data([]);
+    ref.read(totalRepositoryCountProvider.notifier).state =
+        const AsyncValue.data(null);
   }
 }
