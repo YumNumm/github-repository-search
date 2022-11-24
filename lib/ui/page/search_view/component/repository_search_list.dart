@@ -21,27 +21,9 @@ class RepositorySearchList extends ConsumerWidget {
     return data.when<Widget>(
       data: (items) {
         return NotificationListener<ScrollEndNotification>(
-          onNotification: (notification) {
-            // 検索結果を取得していない場合・検索結果がない場合は
-            // 何もしない
-            if (!data.hasValue) {
-              return false;
-            }
-            if (notification.metrics.extentAfter == 0 &&
-                (data.value!.isNotEmpty)) {
-              // 既に検索結果を全て読み込んでいる場合は、
-              // 次のページを読み込む処理を行わない
-              if (data.value!.length ==
-                  (ref.read(totalRepositoryCountProvider).value ?? 0)) {
-                return true;
-              }
-              ref
-                  .read(repositorySearchViewModel.notifier)
-                  .loadMoreRepositories();
-              return true;
-            }
-            return false;
-          },
+          onNotification: (notification) => ref
+              .read(repositorySearchViewModel.notifier)
+              .onNotification(notification),
           child: Scrollbar(
             child: ListView.builder(
               itemCount: items.length + (data.isLoading ? 1 : 0),
