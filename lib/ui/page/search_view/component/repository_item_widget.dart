@@ -115,6 +115,7 @@ class RepositoryDetailWidget extends StatelessWidget {
   final SearchResponseItem item;
   final ExpandableController controller;
 
+  ///
   final numberFormatter = NumberFormat('#,###');
   final dateFormatter =
       DateFormat.yMMMd(LocaleSettings.currentLocale.languageTag);
@@ -301,6 +302,7 @@ class RepositoryDetailWidget extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(8),
                 child: FloatingActionButton.extended(
+                  heroTag: 'RepositoryDetailWidget:${item.hashCode}',
                   onPressed: () => viewModel.onItemPressed(context, item),
                   elevation: 1,
                   label: Text(t.repositoryDetailWidget.goToRepository),

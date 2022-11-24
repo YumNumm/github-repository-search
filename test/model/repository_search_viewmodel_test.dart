@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:github_repository_search/model/github/search_response/search_response_item.dart';
 import 'package:github_repository_search/ui/page/search_view/search_view.viewmodel.dart';
-import 'package:test/test.dart';
 
 void main() {
   final container = ProviderContainer();

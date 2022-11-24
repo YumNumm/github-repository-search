@@ -11,6 +11,5 @@ class ThemeModel with _$ThemeModel {
 
     /// 可能な場合、ダイナミックカラーを利用するか
     @Default(true) bool useDynamicColor,
-
   }) = _ThemeModel;
 }
