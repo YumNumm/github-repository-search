@@ -95,8 +95,8 @@ class RepositorySearchViewModel
     await fetch();
   }
 
-/// 既定のスクロール位置に達した際に発火
-/// 追加読み込み可能な場合 loadMoreRepositories() を呼び出す
+  /// 既定のスクロール位置に達した際に発火
+  /// 追加読み込み可能な場合 loadMoreRepositories() を呼び出す
   bool onNotification(ScrollEndNotification notification) {
     // 検索結果を取得していない場合・検索結果がない場合は
     // 何もしない
@@ -114,12 +114,12 @@ class RepositorySearchViewModel
       return true;
     }
     return false;
+  }
 
   /// 検索結果をクリア
   void clear() {
     state = const AsyncValue.data([]);
     ref.read(totalRepositoryCountProvider.notifier).state =
         const AsyncValue.data(null);
-
   }
 }
