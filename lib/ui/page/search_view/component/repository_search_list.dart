@@ -24,7 +24,6 @@ class RepositorySearchList extends ConsumerWidget {
           onNotification: (notification) => ref
               .read(repositorySearchViewModel.notifier)
               .onNotification(notification),
-
           child: Scrollbar(
             child: ListView.builder(
               itemCount: items.length + (data.isLoading ? 1 : 0),
