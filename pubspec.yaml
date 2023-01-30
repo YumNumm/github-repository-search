@@ -37,7 +37,7 @@ dependencies:
   riverpod_annotation: ^1.0.4
   shared_preferences: ^2.0.15
   shimmer: ^2.0.0
-  slang: ^3.1.0
+  slang: ^3.10.0
   slang_flutter: ^3.1.0
   substring_highlight: ^1.0.33
   url_launcher: ^6.1.6
