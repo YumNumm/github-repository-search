@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:github_repository_search/model/github/search_param.dart';
 import 'package:github_repository_search/model/github/search_response/search_response_item.dart';
 import 'package:github_repository_search/repository/github_repository.dart';
@@ -92,6 +93,27 @@ class RepositorySearchViewModel
         const AsyncLoading<List<SearchResponseItem>>().copyWithPrevious(state);
     page = 1;
     await fetch();
+  }
+
+  /// 既定のスクロール位置に達した際に発火
+  /// 追加読み込み可能な場合 loadMoreRepositories() を呼び出す
+  bool onNotification(ScrollEndNotification notification) {
+    // 検索結果を取得していない場合・検索結果がない場合は
+    // 何もしない
+    if (!state.hasValue) {
+      return false;
+    }
+    if (notification.metrics.extentAfter == 0 && (state.value!.isNotEmpty)) {
+      // 既に検索結果を全て読み込んでいる場合は、
+      // 次のページを読み込む処理を行わない
+      if (state.value!.length ==
+          (ref.read(totalRepositoryCountProvider).value ?? 0)) {
+        return true;
+      }
+      loadMoreRepositories();
+      return true;
+    }
+    return false;
   }
 
   /// 検索結果をクリア
