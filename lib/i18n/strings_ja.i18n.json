@@ -2,9 +2,9 @@
   "appName": "GitHub Repository Search",
   "mainView": {
     "search": "検索",
-    "searchPlaceholder": "レポジトリを検索",
-    "repositoryResult": "$count件のレポジトリが見つかりました",
-    "noRepositoriesFound": "レポジトリが見つかりませんでした",
+    "searchPlaceholder": "リポジトリを検索",
+    "repositoryResult": "$count件のリポジトリが見つかりました",
+    "noRepositoriesFound": "リポジトリが見つかりませんでした",
     "unknownError": "不明なエラーが発生しました"
   },
   "routeErrorView": {
